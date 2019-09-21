@@ -1,0 +1,43 @@
+{
+  "name": "sushi-go",
+  "version": "0.0.0",
+  "description": "sushi-go",
+  "keywords": [
+    "new",
+    "package",
+    "brightsole"
+  ],
+  "main": "index.js",
+  "repository": "git@github.com:one19/sushi-go.git",
+  "author": "Drew Showalter <maelstroswim@gmail.com>",
+  "license": "MIT",
+  "files": [
+    "index.js",
+    "dist/index.js",
+    "dist/index.map"
+  ],
+  "scripts": {
+    "lint": "eslint --fix .",
+    "precommit": "lint-staged",
+    "prepush": "ava",
+    "test": "ava",
+    "coverage": "nyc --reporter=html --reporter=text ava"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "@brightsole/eslint-config-lint-node": "^1.0.0",
+    "ava": "^2.4.0",
+    "husky": "^0.14.2",
+    "lint-staged": "^9.2.5",
+    "lodash": "^4.17.15",
+    "nyc": "^14.1.1"
+  },
+  "dependencies": {
+    "nanoid": "^2.1.1"
+  }
+}
