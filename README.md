@@ -10,6 +10,7 @@
   It has a number of models that describe, execute, evaluate, and understand the mechanics of playing the game Sushi Go Party!
 
   It contains the following classes of behaviour:
+
   | Model | method | Description |
   | :---------------: | :--------------- | :--------------- |
   | Deck | draw(drawNumber) | Draws x number of cards from the deck |
@@ -27,15 +28,16 @@
   |  | resetRound() | Clear played cards, and store played desserts at end of round |
 
   These classes have the following state shape:
+
   | Model | state | Description |
   | :---------------: | :--------------- | :--------------- |
   | Deck | cards | Array of unique cards in the deck |
   | GameState | cards | cards & leftover dessert cards stored |
-  | | cards.remainderDessertCards | storage of the unused dessert cards |
-  | | cards.deck | storage of deck cards not in hand or played on board |
-  | | players | storage of players in the game |
-  | | round = 1 | storage of the round currently being played |
-  | | turn = 1 | storage of the turn currently being played |
+  |  | cards.remainderDessertCards | storage of the unused dessert cards |
+  |  | cards.deck | storage of deck cards not in hand or played on board |
+  |  | players | storage of players in the game |
+  |  | round = 1 | storage of the round currently being played |
+  |  | turn = 1 | storage of the turn currently being played |
   | Player | id | Unique player id |
   |  | hand | array of cards in the player's hand |
   |  | cardsToPass | cards ready to be passed to the neighbor |

@@ -53,7 +53,6 @@ module.exports.Player = class {
   };
 
   playCard = (evaluatePlay = card => card) => {
-    console.log('lfkjsdf', this.sortHandByValue().map(e => e.value));
     const bestCard = this.sortHandByValue()[0];
     const playedState = this.boardState.playedCards;
 
