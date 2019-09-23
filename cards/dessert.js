@@ -1,24 +1,24 @@
 const greenTeaIceCream = {
-  value: 'x4: 12',
   color: 'cyan-green',
+  valueDescription: 'x4: 12',
   name: 'green tea ice cream',
 };
 const pudding = {
   name: 'pudding',
   color: 'light-pink',
-  value: 'most: 6, least: -6',
+  valueDescription: 'most: 6, least: -6',
 };
 const fruit = {
   name: 'fruit',
   color: 'orange-pink',
-  value: '-2, 0, 1, 3, 6, 10',
+  valueDescription: '-2, 0, 1, 3, 6, 10',
   types: [
-    { shape: 'x2 orange', count: 2 },
-    { shape: 'x2 watermelon', count: 2 },
-    { shape: 'x2 pineapple', count: 2 },
-    { shape: 'watermelon orange', count: 3 },
-    { shape: 'pineapple orange', count: 3 },
-    { shape: 'pineapple watermelon', count: 3 },
+    { shapes: { orange: 2 }, count: 2 },
+    { shapes: { pineapple: 2 }, count: 2 },
+    { shapes: { watermelon: 2 }, count: 2 },
+    { shapes: { pineapple: 1, orange: 1 }, count: 3 },
+    { shapes: { watermelon: 1, orange: 1 }, count: 3 },
+    { shapes: { pineapple: 1, watermelon: 1 }, count: 3 },
   ],
 };
 

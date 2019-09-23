@@ -1,5 +1,4 @@
-const nanoid = require('nanoid');
-const getSetupByPlayerCount = require('./cards');
+const { generateCardSet, getSetupByPlayerCount } = require('./cards');
 const { selectUniqueRandoms, shuffle } = require('./utils');
 
 // return the nubmer of cards that need to be added on x round
@@ -42,36 +41,6 @@ const randomGameType = playerCount => {
       })),
     };
   }, {});
-};
-
-// ouput all the cards in whatever cardset you pick
-const generateCardSet = ({ type, gameCardType }) => {
-  const { count, name, value, color, types } = gameCardType;
-
-  if (types) {
-    return types.reduce(
-      (cardSet, { count: subCount, ...rest }) =>
-        cardSet.concat(
-          Array.from(Array(subCount)).map(() => ({
-            name,
-            type,
-            value,
-            color,
-            ...rest,
-            id: nanoid(),
-          }))
-        ),
-      []
-    );
-  }
-
-  return Array.from(Array(count)).map(() => ({
-    id: nanoid(),
-    color,
-    value,
-    type,
-    name,
-  }));
 };
 
 /**
@@ -133,49 +102,8 @@ module.exports.Deck = class {
 
   returnCards = cards => {
     // remove any extraneous properties from the cards
-    const cleanedCards = cards.map(
-      ({ id, name, type, value, color, shape }) => ({
-        id,
-        name,
-        type,
-        value,
-        color,
-        shape,
-      })
-    );
+    cards.forEach(card => card.reset());
 
-    this.cards = this.cards.concat(cleanedCards);
+    this.cards = shuffle(this.cards.concat(cards));
   };
 };
-
-// const PLAYER_COUNT = 6;
-// const testCards = module.exports.prepareDeck({ playerCount: PLAYER_COUNT });
-// const round2Cards = module.exports.prepareDeck({
-//   playerCount: PLAYER_COUNT,
-//   round: 2,
-//   preExisting: testCards,
-// });
-// const round3Cards = module.exports.prepareDeck({
-//   playerCount: PLAYER_COUNT,
-//   round: 3,
-//   preExisting: round2Cards,
-// });
-// console.log(
-//   'a deck length:',
-//   testCards.deck.length,
-//   'dessert leftover length',
-//   testCards.dessertCards.length
-// );
-// console.log(
-//   'b deck length:',
-//   round2Cards.deck.length,
-//   'dessert leftover length',
-//   round2Cards.dessertCards.length
-// );
-// console.log(
-//   'c deck length:',
-//   round3Cards.deck.length,
-//   'dessert leftover length',
-//   round3Cards.dessertCards.length
-// );
-// console.log(round2Cards);

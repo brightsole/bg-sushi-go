@@ -33,8 +33,8 @@ module.exports.Player = class {
   resetRound = deck => {
     const { playedCards } = this.boardState;
 
-    const desserts = playedCards.filter(card => card.type === 'dessert');
-    const rest = playedCards.filter(card => card.type !== 'dessert');
+    const desserts = playedCards.filter(card => card.isDessert);
+    const rest = playedCards.filter(card => !card.isDessert);
 
     this.boardState.desserts = this.boardState.desserts.concat(desserts);
     this.boardState.playedCards = [];
@@ -47,16 +47,17 @@ module.exports.Player = class {
   };
 
   sortHandByValue = () => {
-    return this.hand.sort((a, b) =>
+    const dingle = this.hand.sort((a, b) =>
       this.scoringAlgorithm(a) > this.scoringAlgorithm(b) ? -1 : 1
     );
+    return dingle;
   };
 
   playCard = (evaluatePlay = card => card) => {
     const bestCard = this.sortHandByValue()[0];
     const playedState = this.boardState.playedCards;
 
-    this.boardState.playedCards = [...playedState, evaluatePlay(bestCard)];
+    this.boardState.playedCards = playedState.concat(evaluatePlay(bestCard));
     this.cardsToPass = this.sortHandByValue().slice(1);
 
     this.setHand([]);
@@ -75,14 +76,15 @@ module.exports.Player = class {
   // eslint-disable-next-line no-unused-vars
   scoreBoard = (round, allBoardStates) => {
     if (round === 3) {
+      // score the desserts on the final round
       const desserts = this.boardState.desserts.concat(
-        this.boardState.playedCards.filter(card => card.type === 'dessert')
+        this.boardState.playedCards.filter(card => card.isDessert)
       );
       this.boardState.score += scoreCards(desserts);
     }
 
     this.boardState.score += scoreCards(
-      this.boardState.playedCards.filter(card => card.type !== 'dessert')
+      this.boardState.playedCards.filter(card => !card.isDessert)
     );
   };
 };

@@ -3,6 +3,7 @@ const nigiri = require('./nigiri');
 const specials = require('./special');
 const desserts = require('./dessert');
 const appetizers = require('./appetizer');
+const { Card } = require('./card');
 
 // filter card types that cannot be played with x playercount
 const byPlayerCount = playerCount => cardType => {
@@ -13,7 +14,7 @@ const byPlayerCount = playerCount => cardType => {
   return true;
 };
 
-module.exports = playerCount => ({
+module.exports.getSetupByPlayerCount = playerCount => ({
   special: {
     count: 3,
     options: specials.filter(byPlayerCount(playerCount)),
@@ -26,6 +27,40 @@ module.exports = playerCount => ({
   roll: { count: 12, options: rolls.filter(byPlayerCount(playerCount)) },
   dessert: { count: 15, options: desserts.filter(byPlayerCount(playerCount)) },
 });
+
+// ouput all the cards in whatever cardset you pick
+module.exports.generateCardSet = ({ type, gameCardType }) => {
+  const { count, name, value, color, types } = gameCardType;
+
+  if (types) {
+    return types.reduce(
+      (cardSet, { count: subCount, ...rest }) =>
+        cardSet.concat(
+          Array.from(Array(subCount)).map(
+            () =>
+              new Card({
+                name,
+                type,
+                value,
+                color,
+                ...rest,
+              })
+          )
+        ),
+      []
+    );
+  }
+
+  return Array.from(Array(count)).map(
+    () =>
+      new Card({
+        color,
+        value,
+        type,
+        name,
+      })
+  );
+};
 
 // evaluate the rooles laterz
 module.exports.scoreCards = cards =>
