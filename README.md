@@ -19,6 +19,8 @@
   |  | playAllTurns() | All players play and pass cards until hands empty |
   |  | playARound() | All rounds played, scores assigned, hands reset, round incremented, turn reset |
   |  | playAGame() | 3 rounds played, winnner declared |
+  | Card | flip() | flip card over, used in some actions |
+  |  | reset() | reset all user-input card values to default |
   | Player | setHand(cards) | Set the players hand to equal those cards |
   |  | setNeighbors(lID, rID) | Set L & R neighbor ids |
   |  | sortHandByValue() | Sorts hand by scoring algo |
@@ -38,6 +40,12 @@
   |  | players | storage of players in the game |
   |  | round = 1 | storage of the round currently being played |
   |  | turn = 1 | storage of the turn currently being played |
+  | Card | id | unique card id |
+  |  | name | name of the card or subtype _(salmon nigiri)_ |
+  |  | color | couple word description of the semi-unique color _(used in scoring sparingly)_ |
+  |  | shapes | key:value store of shape + count |
+  |  | value = () => {} | value calc function, or simple number |
+  |  | isDessert | boolean for if this card is a dessert card |
   | Player | id | Unique player id |
   |  | hand | array of cards in the player's hand |
   |  | cardsToPass | cards ready to be passed to the neighbor |
