@@ -4,7 +4,7 @@ const { prepareDeck, Deck } = require('./deck');
 
 module.exports.setup = ({ playerCount = 2, gameType } = {}) => {
   const players = Array.from(Array(playerCount)).map(() => new Player());
-  const { deck: fullDeck, dessertCards: remainderDessertCards } = prepareDeck({
+  const { deck: fullDeck, dessertCards } = prepareDeck({
     playerCount,
     gameType,
   });
@@ -24,5 +24,5 @@ module.exports.setup = ({ playerCount = 2, gameType } = {}) => {
     player.setNeighbors(left, right);
   });
 
-  return new GameState({ deck, remainderDessertCards, players });
+  return new GameState({ deck, dessertCards, players });
 };

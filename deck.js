@@ -78,8 +78,8 @@ module.exports.prepareDeck = ({
       return all.concat(cards);
     }, []);
 
-    const dessertCards = allCards.filter(e => e.type === 'dessert');
-    const deck = allCards.filter(e => e !== 'dessert');
+    const dessertCards = allCards.filter(card => card.isDessert);
+    const deck = allCards.filter(card => !card.isDessert);
 
     return addDessertCards({ deck, dessertCards, playerCount, round });
   }
