@@ -10,7 +10,7 @@ module.exports.Player = class {
     desserts = [],
     neighbors = [],
     playedCards = [],
-    scoringAlgorithm = Math.random,
+    scoringAlgorithm = (a, b) => a.name >= b.name,
   } = {}) {
     this.id = id;
     this.hand = hand;
@@ -47,18 +47,20 @@ module.exports.Player = class {
   };
 
   sortHandByValue = () => {
-    const dingle = this.hand.sort((a, b) =>
-      this.scoringAlgorithm(a) > this.scoringAlgorithm(b) ? -1 : 1
+    const bestToWorst = this.hand.sort((a, b) =>
+      this.scoringAlgorithm(a, b) ? -1 : 1
     );
-    return dingle;
+    return bestToWorst;
   };
 
   playCard = (evaluatePlay = card => card) => {
-    const bestCard = this.sortHandByValue()[0];
+    const sortedCards = this.sortHandByValue();
     const playedState = this.boardState.playedCards;
 
+    const bestCard = sortedCards[0];
     this.boardState.playedCards = playedState.concat(evaluatePlay(bestCard));
-    this.cardsToPass = this.sortHandByValue().slice(1);
+
+    this.cardsToPass = sortedCards.slice(1);
 
     this.setHand([]);
   };
