@@ -31,28 +31,39 @@ module.exports.GameState = class {
 
   playARound = () => {
     this.playAllTurns();
+    this.round += 1;
+    this.turn = 1;
 
+    const { round, players, cards } = this;
+    const { deck, dessertCards } = cards;
+    const playerCount = this.players.length;
+
+    // score the board, boardStates are usually needed for this
     const boardStates = this.players.map(player => player.boardState);
-    this.players.forEach(player => player.scoreBoard(this.round, boardStates));
+    players.forEach(player => player.scoreBoard(this.round, boardStates));
 
-    this.players.forEach(player => player.resetRound(this.cards.deck));
+    // return played cards _(save desserts)_ to the deck
+    players.forEach(player => player.resetRound(this.cards.deck));
+    this.cards.dessertCards = deck.topUpDesserts({
+      round,
+      playerCount,
+      dessertCards,
+    });
 
-    this.players.forEach(player =>
-      player.setHand(
-        this.cards.deck.draw(module.exports.turnCount(this.players.length))
-      )
-    );
-
-    console.log(this.players.map(player => player.boardState.score));
-    if (this.round === 3) {
+    // if final round, log score
+    if (this.round > 3) {
       const winner = this.players.sort((a, b) =>
         a.boardState.score > b.boardState.score ? -1 : 1
       )[0];
-      console.log('w: ', winner, 'wins with: ', winner.boardState.score);
+      console.log('winer: ', winner, 'wins with: ', winner.boardState.score);
+    } else {
+      // otherwise, give all players their hands
+      this.players.forEach(player =>
+        player.setHand(
+          this.cards.deck.draw(module.exports.turnCount(this.players.length))
+        )
+      );
     }
-
-    this.round += 1;
-    this.turn = 1;
   };
 
   playAGame = () => {

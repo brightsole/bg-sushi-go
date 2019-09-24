@@ -93,6 +93,19 @@ module.exports.Deck = class {
     this.cards = cards;
   }
 
+  // return dessert cards not added to the deck
+  topUpDesserts = ({ dessertCards, playerCount, round }) => {
+    const { deck, dessertCards: remainder } = addDessertCards({
+      deck: this.cards,
+      dessertCards,
+      playerCount,
+      round,
+    });
+
+    this.cards = deck;
+    return remainder;
+  };
+
   draw = count => {
     const drawnCards = this.cards.slice(0, count);
     this.cards = this.cards.slice(count);
