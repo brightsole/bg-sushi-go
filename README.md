@@ -15,6 +15,7 @@
   | :---------------: | :--------------- | :--------------- |
   | Deck | draw(drawNumber) | Draws x number of cards from the deck |
   |  | returnCards(cards) | Returns given cards to the deck |
+  |  | topUpDesserts(Params) => remainingDesserts | Add proper amount of dessert cards to the deck |
   | GameState | playATurn() | All players play and pass cards, turn incremented |
   |  | playAllTurns() | All players play and pass cards until hands empty |
   |  | playARound() | All rounds played, scores assigned, hands reset, round incremented, turn reset |
@@ -35,7 +36,7 @@
   | :---------------: | :--------------- | :--------------- |
   | Deck | cards | Array of unique cards in the deck |
   | GameState | cards | cards & leftover dessert cards stored |
-  |  | cards.remainderDessertCards | storage of the unused dessert cards |
+  |  | cards.dessertCards | storage of the unused dessert cards |
   |  | cards.deck | storage of deck cards not in hand or played on board |
   |  | players | storage of players in the game |
   |  | round = 1 | storage of the round currently being played |
