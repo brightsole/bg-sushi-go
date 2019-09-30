@@ -74,7 +74,13 @@ module.exports.Player = class {
     this.cardsToPass = [];
   };
 
-  scoreBoard = (round, otherPlayerBoardstates) => {
+  getCardsByName = name => {
+    return this.boardState.playedCards
+      .concat(this.boardState.desserts)
+      .filter(card => card.name === name);
+  };
+
+  scoreBoard = (round, gameType, otherPlayerBoardstates) => {
     this.boardState.round = round;
 
     // TODO: fix round to be 1,2,3 instead of 2,3,4

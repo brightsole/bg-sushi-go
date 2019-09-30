@@ -9,14 +9,15 @@ const nanoid = require('nanoid');
  * doesn't store min/max player properties used when generating
  *
  * @property {String} id - unique id for tracking/validating use
- * @property {String} name - specific or general name for a card
+ * @property {String} name - general name for a card
+ * @property {String} cardName - specific name for a subtype of card
  * @property {String} color - 1-2 words describing semi-unique colors
  * @property {String} type - card classification, like roll/special etc
  * @property {Object} shapes - key/value store of number of shapes on card
  * @property {Number|Function} value - card value or value calculating function
  */
 module.exports.Card = class {
-  constructor({ name, color, id = nanoid(), type, value, shapes }) {
+  constructor({ name, cardName, color, id = nanoid(), type, value, shapes }) {
     this.default = value;
 
     this.id = id;
@@ -24,6 +25,7 @@ module.exports.Card = class {
     this.type = type;
     this.color = color;
     this.shapes = shapes;
+    this.cardName = cardName;
 
     this.flipped = false;
   }

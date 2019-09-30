@@ -19,16 +19,17 @@
   | GameState | playATurn() | All players play and pass cards, turn incremented |
   |  | playAllTurns() | All players play and pass cards until hands empty |
   |  | playARound() | All rounds played, scores assigned, hands reset, round incremented, turn reset |
-  |  | playAGame() | 3 rounds played, winner declared |
-  | Card | flip() | flip card over, used in some actions |
-  |  | reset() | reset all user-input card values to default |
-  |  | setScore() | set the card's score to be a value, usually a number |
+  |  | playAGame() | Three rounds played, winner declared |
+  | Card | flip() | Flip card over, used in some actions |
+  |  | reset() | Seset all user-input card values to default |
+  |  | setScore() | Set the card's score to be a value, usually a number |
   | Player | setHand(cards) | Set the players hand to equal those cards |
   |  | setNeighbors(lID, rID) | Set L & R neighbor ids |
   |  | sortHandByValue() | Sorts hand by scoring algo |
   |  | playCard(evaluatePlay) | Plays the best card, and evaluates if it was effected by any other player's played card |
   |  | passCards() | Passes all other non-played cards |
-  |  | scoreBoard(round, allBoardStates) | Scores all played cards for x round |
+  |  | getCardsByName(name) | Gets all cards of the specified name in the desserts/playedCards for this player |
+  |  | scoreBoard(round, gameType, allBoardStates) | Scores all played cards for x round |
   |  | resetRound() | Clear played cards, and store played desserts at end of round |
 
   These classes have the following state shape:
@@ -36,29 +37,30 @@
   | Model | state | Description |
   | :---------------: | :--------------- | :--------------- |
   | Deck | cards | Array of unique cards in the deck |
-  | GameState | cards | cards & leftover dessert cards stored |
-  |  | cards.dessertCards | storage of the unused dessert cards |
-  |  | cards.deck | storage of deck cards not in hand or played on board |
-  |  | players | storage of players in the game |
+  | GameState | cards | Cards & leftover dessert cards stored |
+  |  | cards.dessertCards | Storage of the unused dessert cards |
+  |  | cards.deck | Storage of deck cards not in hand or played on board |
+  |  | players | Storage of players in the game |
   |  | gameType | cardType: [selected types] game type storage |
-  |  | round = 1 | storage of the round currently being played |
-  |  | turn = 1 | storage of the turn currently being played |
+  |  | round = 1 | Storage of the round currently being played |
+  |  | turn = 1 | Storage of the turn currently being played |
   | Card | id | unique card id |
-  |  | name | name of the card or subtype _(salmon nigiri)_ |
-  |  | color | couple word description of the semi-unique color _(used in scoring sparingly)_ |
+  |  | name | Name of the card |
+  |  | name | Name of the card subtype _(salmon nigiri)_ |
+  |  | color | Few word description of the semi-unique color _(used in scoring sparingly)_ |
   |  | shapes | key:value store of shape + count |
-  |  | value | value calc function, or simple number |
-  |  | isDessert | boolean for if this card is a dessert card |
+  |  | value | Value calc function, or simple number |
+  |  | isDessert | Boolean for if this card is a dessert card |
   | Player | id | Unique player id |
-  |  | hand | array of cards in the player's hand |
-  |  | cardsToPass | cards ready to be passed to the neighbor |
-  |  | scoringAlgorithm | set the scoring algo that will define best sorting methodology for the players hand |
-  |  | boardState | properties between the player and other board states |
-  |  | boardState.score | the player's score |
-  |  | boardState.round | the current round, maybe useful in the scoring algo |
-  |  | boardState.desserts | the desserts played by the player previously |
-  |  | boardState.neighbors | [l, r] neighbor ids for passing cards |
-  |  | boardState.playedCards | cards played during this round |
+  |  | hand | Array of cards in the player's hand |
+  |  | cardsToPass | Cards ready to be passed to the neighbor |
+  |  | scoringAlgorithm | Set the scoring algo that will define best sorting methodology for the players hand |
+  |  | boardState | Properties between the player and other board states |
+  |  | boardState.score | The player's score |
+  |  | boardState.round | The current round, maybe useful in the scoring algo |
+  |  | boardState.desserts | The desserts played by the player previously |
+  |  | boardState.neighbors | [L, R] neighbor ids for passing cards |
+  |  | boardState.playedCards | Cards played during this round |
 
 
   `index.js` calls the `setup` function, that instantiates a GameState with players, cards, and things like turn/round stored within. From there, playing is easy!
@@ -96,7 +98,8 @@
   1. Scoring algorithm is now based on card name length, **not ideal**
   2. Players unable to activate specials that have been previously played
   3. players with different AI unable to be passed in to the `setup` function
-  4. Evaluating score has bugs
+  4. add `evaluatePlay` to card that uses the mechanic, and remove from players
+  5. Evaluating score has bugs
       1. fix `roll` scoring
       2. fix `special` scoring
       4. fix `appetizer` scoring
@@ -105,6 +108,7 @@
 
   #### NICE TO HAVE:
   1. output is logged, return the value so that algo fitness may be evaluated
+  2. the sorting algo used for player AI, and how cards are moved between hand/played/passed is overly complex. It could be `algo => this.toPlay, this.toPass` storage on the player before passing happens
 
 </details>
 <br/>

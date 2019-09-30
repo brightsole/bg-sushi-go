@@ -13,8 +13,10 @@ const { setup } = require('./setup');
 // ];
 // const board = setup({ playerCount: 8, cardTypeNames: validEight });
 
-const board = setup({ playerCount: 7 });
+const playerCount = Math.round(Math.random() * 6) + 2;
+const board = setup({ playerCount });
 
+console.log('players: ', playerCount);
 console.time('game');
 board.playAGame();
 console.timeEnd('game');

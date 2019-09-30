@@ -44,6 +44,7 @@ module.exports.GameState = class {
     players.forEach(player =>
       player.scoreBoard(
         this.round,
+        this.gameType,
         players
           .filter(otherPlayer => otherPlayer.id !== player.id)
           .map(otherPlayer => otherPlayer.boardState)

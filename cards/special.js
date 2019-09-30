@@ -42,6 +42,15 @@ const wasabi = {
   valueDescription: 'next nigiri x3',
 };
 
+// unique to these cards:
+// 1. announce: plays
+// 2. flipping cards
+// 3. future cards played being affected
+// 4. copying previous cards
+// 5. trading
+// 6. value based on colors
+// 7. playing more than one card
+
 module.exports = [
   specialOrder,
   chopsticks,
