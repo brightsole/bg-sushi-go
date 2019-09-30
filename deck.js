@@ -66,7 +66,8 @@ module.exports.prepareDeck = ({
       'gametype selected: ',
       Object.keys(gameTypeCards)
         .flatMap(e => `\n${e}: ${gameTypeCards[e].map(f => f.name).join(', ')}`)
-        .join('')
+        .join(''),
+      '\n'
     );
 
     const allCards = Object.keys(gameTypeCards).reduce((all, type) => {

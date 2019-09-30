@@ -16,7 +16,7 @@ const nanoid = require('nanoid');
  * @property {Number|Function} value - card value or value calculating function
  */
 module.exports.Card = class {
-  constructor({ name, color, id = nanoid(), type, value = () => {}, shapes }) {
+  constructor({ name, color, id = nanoid(), type, value, shapes }) {
     this.default = value;
 
     this.id = id;
@@ -29,7 +29,7 @@ module.exports.Card = class {
   }
 
   get value() {
-    return this.replacedValue || this.default;
+    return this.replacedValue != null ? this.replacedValue : this.default;
   }
 
   // set a temporary value
@@ -39,6 +39,11 @@ module.exports.Card = class {
 
   get isDessert() {
     return this.type === 'dessert';
+  }
+
+  setScore(value) {
+    this.isScored = true;
+    this.replacedValue = value;
   }
 
   // flip the card face down
