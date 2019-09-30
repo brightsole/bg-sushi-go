@@ -22,6 +22,7 @@
   |  | playAGame() | 3 rounds played, winnner declared |
   | Card | flip() | flip card over, used in some actions |
   |  | reset() | reset all user-input card values to default |
+  |  | setScore() | set the card's score to be a value, usually a number |
   | Player | setHand(cards) | Set the players hand to equal those cards |
   |  | setNeighbors(lID, rID) | Set L & R neighbor ids |
   |  | sortHandByValue() | Sorts hand by scoring algo |
@@ -45,7 +46,7 @@
   |  | name | name of the card or subtype _(salmon nigiri)_ |
   |  | color | couple word description of the semi-unique color _(used in scoring sparingly)_ |
   |  | shapes | key:value store of shape + count |
-  |  | value = () => {} | value calc function, or simple number |
+  |  | value | value calc function, or simple number |
   |  | isDessert | boolean for if this card is a dessert card |
   | Player | id | Unique player id |
   |  | hand | array of cards in the player's hand |
@@ -80,13 +81,13 @@
 <summary>tl;dr: LOTS</summary>
 <br />
 
-  1. Scoring algo is `literally random`
+  1. Scoring algorithm is now based on card name length, **not ideal**
   2. Players unable to activate specials that have been previously played
-  3. Evaluating score **does not evaluate anything that isn't just a `value`**
-    1. fix `roll` scoring
-    2. fix `special` scoring
-    3. fix `dessert` scoring
-    4. fix `appetizer` scoring
+  3. Evaluating score has bugs
+      1. fix `roll` scoring
+      2. fix `special` scoring
+      4. fix `appetizer` scoring
+      5. fix scoring method to work on cards the user has 0 of
   4. output is logged, return the value so that algo fitness may be evaluated
 
 </details>
