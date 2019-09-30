@@ -86,12 +86,33 @@ module.exports.Player = class {
     // TODO: fix round to be 1,2,3 instead of 2,3,4
     if (round > 3) {
       // score the desserts on the final round
-      const desserts = this.boardState.desserts.concat(
-        this.boardState.playedCards.filter(card => card.isDessert)
-      );
-      const dessertScore = scoreCards(desserts, otherPlayerBoardstates);
-      this.boardState.score += dessertScore;
+      // allows for more than 1 variety of dessert
+      // *(no guarantee deck construction will work with nonstandard dessert #s yet)*
+      const dessertTypes = gameType.dessert;
+      dessertTypes.forEach(dessertBaseType => {
+        const dessertCards = this.getCardsByName(dessertBaseType.name);
+
+        this.boardState.score += scoreCards(
+          dessertCards,
+          dessertBaseType,
+          otherPlayerBoardstates
+        );
+      });
     }
+
+    Object.keys(gameType)
+      .filter(e => e !== 'dessert')
+      .forEach(cardTypeName => {
+        const baseCardTypes = gameType[cardTypeName];
+        baseCardTypes.forEach(baseCardType => {
+          const cards = this.getCardsByName(baseCardType.name);
+          this.boardState.score += scoreCards(
+            cards,
+            baseCardType,
+            otherPlayerBoardstates
+          );
+        });
+      });
 
     this.boardState.score += scoreCards(
       this.boardState.playedCards.filter(card => !card.isDessert),

@@ -62,17 +62,14 @@ module.exports.generateCardSet = ({ type, gameCardType }) => {
   );
 };
 
-// TODO: this has a disasterous bug for *at least* dessert scoring
-// if the player owns 0 of them, they aren't scored, and that *will usually*
-// mean they're scored incorrectly. This scoring method needs refactored
-module.exports.scoreCards = (cards, otherPlayerBoardstates) =>
-  cards.reduce((total, card) => {
-    if (typeof card.value === 'number') return total + card.value;
+// if the cardType has a value function, return its execution, which will
+// score all cards of that type.
+// otherwise, sum the card values for that card type
+module.exports.scoreCards = (cards, cardBaseType, otherPlayerBoardstates) =>
+  typeof cardBaseType.value === 'function'
+    ? cardBaseType.value(cards, otherPlayerBoardstates)
+    : cards.reduce((total, card) => {
+        if (typeof card.value === 'number') return total + card.value;
 
-    // if card has a score function, run it to get the score
-    if (typeof card.value === 'function') {
-      return total + card.value(cards, otherPlayerBoardstates);
-    }
-
-    return total;
-  }, 0);
+        return total;
+      }, 0);
