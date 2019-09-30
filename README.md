@@ -19,7 +19,7 @@
   | GameState | playATurn() | All players play and pass cards, turn incremented |
   |  | playAllTurns() | All players play and pass cards until hands empty |
   |  | playARound() | All rounds played, scores assigned, hands reset, round incremented, turn reset |
-  |  | playAGame() | 3 rounds played, winnner declared |
+  |  | playAGame() | 3 rounds played, winner declared |
   | Card | flip() | flip card over, used in some actions |
   |  | reset() | reset all user-input card values to default |
   |  | setScore() | set the card's score to be a value, usually a number |
@@ -40,6 +40,7 @@
   |  | cards.dessertCards | storage of the unused dessert cards |
   |  | cards.deck | storage of deck cards not in hand or played on board |
   |  | players | storage of players in the game |
+  |  | gameType | cardType: [selected types] game type storage |
   |  | round = 1 | storage of the round currently being played |
   |  | turn = 1 | storage of the turn currently being played |
   | Card | id | unique card id |
@@ -58,6 +59,9 @@
   |  | boardState.desserts | the desserts played by the player previously |
   |  | boardState.neighbors | [l, r] neighbor ids for passing cards |
   |  | boardState.playedCards | cards played during this round |
+
+
+  `index.js` calls the `setup` function, that instantiates a GameState with players, cards, and things like turn/round stored within. From there, playing is easy!
 
 </details>
 <br/>
@@ -88,14 +92,19 @@
 <summary>tl;dr: LOTS</summary>
 <br />
 
+  #### MUST HAVE:
   1. Scoring algorithm is now based on card name length, **not ideal**
   2. Players unable to activate specials that have been previously played
-  3. Evaluating score has bugs
+  3. players with different AI unable to be passed in to the `setup` function
+  4. Evaluating score has bugs
       1. fix `roll` scoring
       2. fix `special` scoring
       4. fix `appetizer` scoring
       5. fix scoring method to work on cards the user has 0 of
-  4. output is logged, return the value so that algo fitness may be evaluated
+
+
+  #### NICE TO HAVE:
+  1. output is logged, return the value so that algo fitness may be evaluated
 
 </details>
 <br/>

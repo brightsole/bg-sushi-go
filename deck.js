@@ -44,6 +44,41 @@ const randomGameType = playerCount => {
 };
 
 /**
+ * Returns a gameType setup based on an array of card type names passed in
+ *
+ * WARNING: it's possible to construct game breaking decks this way
+ * there is no validation done on types of cards, or checking that they
+ * are valid for this number of players
+ *
+ * @param {String[]} cardTypeNames - array of card type names to select as a game type
+ * @param {Number} playerCount - number of players, used to filter options
+ */
+const createGameType = (cardTypeNames, playerCount) => {
+  const cardtypeOptions = getSetupByPlayerCount(playerCount);
+
+  const getType = name =>
+    Object.keys(cardtypeOptions).find(key =>
+      cardtypeOptions[key].options.some(option => option.name === name)
+    );
+  const getSelection = name =>
+    cardtypeOptions[getType(name)].options.find(option => option.name === name);
+
+  return cardTypeNames.reduce((gameResult, cardTypeName) => {
+    const cardType = getType(cardTypeName);
+    const selection = {
+      ...getSelection(cardTypeName),
+      count: cardtypeOptions[cardType].count,
+    };
+
+    const preExisting = gameResult[cardType];
+    return {
+      ...gameResult,
+      [cardType]: preExisting ? [...preExisting, selection] : [selection],
+    };
+  }, {});
+};
+
+/**
  * Prep the deck!
  * Gives back a new deck, and the leftover dessert cards,
  * if not on turn 1 it gives back the updated totals
@@ -55,13 +90,15 @@ const randomGameType = playerCount => {
  * @param {Object} gameType - supply a type setup with selected cardtypes
  */
 module.exports.prepareDeck = ({
+  cardTypeNames,
   playerCount,
   preExisting,
   round = 1,
-  gameType,
 }) => {
   if (!preExisting) {
-    const gameTypeCards = gameType || randomGameType(playerCount);
+    const gameTypeCards = cardTypeNames
+      ? createGameType(cardTypeNames, playerCount)
+      : randomGameType(playerCount);
     console.log(
       'gametype selected: ',
       Object.keys(gameTypeCards)

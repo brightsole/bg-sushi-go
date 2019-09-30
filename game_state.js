@@ -6,8 +6,9 @@ module.exports.turnCount = playerCount => {
 };
 
 module.exports.GameState = class {
-  constructor({ deck, dessertCards, players, round = 1, turn = 1 }) {
+  constructor({ deck, dessertCards, players, gameType, round = 1, turn = 1 }) {
     this.cards = { deck, dessertCards };
+    this.gameType = gameType;
     this.players = players;
     this.round = round;
     this.turn = turn;
