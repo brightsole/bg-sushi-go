@@ -74,19 +74,22 @@ module.exports.Player = class {
     this.cardsToPass = [];
   };
 
-  // TODO: complete scores will require the full board state
-  // eslint-disable-next-line no-unused-vars
-  scoreBoard = (round, allBoardStates) => {
-    if (round === 3) {
+  scoreBoard = (round, otherPlayerBoardstates) => {
+    this.boardState.round = round;
+
+    // TODO: fix round to be 1,2,3 instead of 2,3,4
+    if (round > 3) {
       // score the desserts on the final round
       const desserts = this.boardState.desserts.concat(
         this.boardState.playedCards.filter(card => card.isDessert)
       );
-      this.boardState.score += scoreCards(desserts);
+      const dessertScore = scoreCards(desserts, otherPlayerBoardstates);
+      this.boardState.score += dessertScore;
     }
 
     this.boardState.score += scoreCards(
-      this.boardState.playedCards.filter(card => !card.isDessert)
+      this.boardState.playedCards.filter(card => !card.isDessert),
+      otherPlayerBoardstates
     );
   };
 };

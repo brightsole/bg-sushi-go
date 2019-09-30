@@ -38,9 +38,16 @@ module.exports.GameState = class {
     const { deck, dessertCards } = cards;
     const playerCount = this.players.length;
 
-    // score the board, boardStates are usually needed for this
-    const boardStates = this.players.map(player => player.boardState);
-    players.forEach(player => player.scoreBoard(this.round, boardStates));
+    // score the board, other players played cards are definitely needed
+    // they're passed in as an array of arrays of cards
+    players.forEach(player =>
+      player.scoreBoard(
+        this.round,
+        players
+          .filter(otherPlayer => otherPlayer.id !== player.id)
+          .map(otherPlayer => otherPlayer.boardState)
+      )
+    );
 
     // return played cards _(save desserts)_ to the deck
     players.forEach(player => player.resetRound(this.cards.deck));
