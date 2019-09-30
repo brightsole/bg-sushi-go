@@ -73,6 +73,13 @@
 
   right now, it's just a jumping off point, much more work must be done.
 
+  ### THE END GOAL IS THUS:
+  To make a working copy of sushi-go-party that anyone with *some* experience in JS can play with. I want people to put forth their best `scoringAlgorithm` **and that's it**. Those scoring algos are then what's used to hold AI competitions!
+
+  The scoring algo is also *dead simple*. It takes in a hand, _(and the state of the board that turn)_, and returns a sorted hand, from best to worst. **that's it**.
+
+  All it takes to be a competitor is using that information to choose the best cards possible! To me, it's far more interesting of a play space than other Bayesian AI competitions I've seen done, and nearly as simple to get into!
+
 </details>
 <br/>
 
