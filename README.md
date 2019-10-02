@@ -79,6 +79,8 @@
 
   `node index.js` will output a winner, and their score.
 
+  `watch -n 0.1 node index.js` is also pretty cool _(assuming you've done `brew install watch`, or `apt-get install watch`)_, as you can watch it run random games 10x a second.
+
   right now, it's just a jumping off point, much more work must be done.
 
   ### THE END GOAL IS THUS:
@@ -97,20 +99,48 @@
 <br />
 
   #### MUST HAVE:
-  1. Scoring algorithm is now based on card name length, **not ideal**
+  1. Scoring algorithm is **fully random.** not ideal
   2. Players unable to activate specials that have been previously played
   3. players with different AI unable to be passed in to the `setup` function
-  4. add `evaluatePlay` to card that uses the mechanic, and remove from players
-  5. Evaluating score has bugs
-      1. fix `roll` scoring
-      2. fix `special` scoring
-      4. fix `appetizer` scoring
-      5. fix scoring method to work on cards the user has 0 of
+  4. Evaluating score has bugs
+      1. include `roll` scoring
+      1. include `special` scoring
 
 
   #### NICE TO HAVE:
   1. output is logged, return the value so that algo fitness may be evaluated
-  2. the sorting algo used for player AI, and how cards are moved between hand/played/passed is overly complex. It could be `algo => this.toPlay, this.toPass` storage on the player before passing happens
+
+
+  ### TESTS TO DO:
+  1. appetizers
+      1. misoSoup
+      1. dumpling
+      1. tofu
+      1. sashimi
+      1. eel
+      1. tempura
+
+  2. dessert
+      1. setup
+      1. greenTeaIceCream
+      1. pudding
+      1. fruit
+
+  3. roll
+      1. setup
+      1. maki
+      1. uramaki
+      1. temaki
+
+  4. special
+      1. specialOrder
+      1. chopsticks
+      1. takeoutBox
+      1. soySauce
+      1. wasabi
+      1. spoon
+      1. menu
+      1. tea
 
 </details>
 <br/>
