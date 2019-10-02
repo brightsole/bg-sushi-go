@@ -41,7 +41,14 @@ const uramaki = {
   // so, the in-game description of scoring expects you to score
   // immediately, but we may assign score, and flip, assigning the same
   // scores at the end of round by setting card values at time of play
-  // play: (card, allPlayedCards, otherPlayerBoardstates) => {},
+  // play: (
+  //  card,
+  //  allPlayedCards,  // unused
+  //  [player.cardToPlay.concat(player.boardState.playedCards)],
+  //  selfBoardState
+  // ) => {},
+  //  :point_up: that's hairy, probably denotes necessary refactor
+  // value: () also necessary because unflipped cards at end of round might be scored
   types: [
     { count: 4, shapes: { uramaki: 3 } },
     { count: 4, shapes: { uramaki: 4 } },
