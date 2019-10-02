@@ -15,12 +15,23 @@ const nanoid = require('nanoid');
  * @property {String} type - card classification, like roll/special etc
  * @property {Object} shapes - key/value store of number of shapes on card
  * @property {Number|Function} value - card value or value calculating function
+ * @property {Function=any=>any} play - evaluate card when playing it
  */
 module.exports.Card = class {
-  constructor({ name, cardName, color, id = nanoid(), type, value, shapes }) {
+  constructor({
+    play = card => card,
+    id = nanoid(),
+    cardName,
+    shapes,
+    color,
+    value,
+    name,
+    type,
+  }) {
     this.default = value;
 
     this.id = id;
+    this.play = play;
     this.name = name;
     this.type = type;
     this.color = color;

@@ -30,7 +30,7 @@ module.exports.getSetupByPlayerCount = playerCount => ({
 
 // ouput all the cards in whatever cardset you pick
 module.exports.generateCardSet = ({ type, gameCardType }) => {
-  const { count, name, value, color, types } = gameCardType;
+  const { name, count, value, color, types, play } = gameCardType;
 
   if (types) {
     return types.reduce(
@@ -41,6 +41,7 @@ module.exports.generateCardSet = ({ type, gameCardType }) => {
               new Card({
                 name,
                 type,
+                play,
                 value,
                 color,
                 ...rest,
@@ -56,6 +57,7 @@ module.exports.generateCardSet = ({ type, gameCardType }) => {
       new Card({
         color,
         value,
+        play,
         type,
         name,
       })

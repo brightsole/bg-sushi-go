@@ -21,7 +21,8 @@
   |  | playARound() | All rounds played, scores assigned, hands reset, round incremented, turn reset |
   |  | playAGame() | Three rounds played, winner declared |
   | Card | flip() | Flip card over, used in some actions |
-  |  | reset() | Seset all user-input card values to default |
+  |  | reset() | Reset all user-input card values to default |
+  |  | play(allCardsPlayed) | Evaluate execution of playing a card, returns that card |
   |  | setScore() | Set the card's score to be a value, usually a number |
   | Player | setHand(cards) | Set the players hand to equal those cards |
   |  | setNeighbors(lID, rID) | Set L & R neighbor ids |
