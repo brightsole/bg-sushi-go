@@ -1,5 +1,6 @@
 const scoreGreenTea = desserts => {
-  const totalScore = desserts.length % 4 === 0 ? desserts.length / 4 : 0;
+  const totalScore =
+    desserts.length && desserts.length % 4 === 0 ? 3 * desserts.length : 0;
   // set the score to zero to not double-count
   desserts.forEach(dessert => dessert.setScore(0));
   return totalScore;

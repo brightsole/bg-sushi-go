@@ -3,6 +3,9 @@ const chopsticks = {
   color: 'light-cyan',
   valueDescription: 'announce: play 2 in hand, put chopsticks in hand',
 };
+// this will need all played cards for the player, currently boardstates
+// doesn't include the player doing the scoring
+// scoring algo needs ammended
 const soySauce = {
   name: 'soy sauce',
   color: 'yellow-orange',
