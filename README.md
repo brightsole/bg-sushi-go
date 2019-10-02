@@ -25,7 +25,7 @@
   |  | setScore() | Set the card's score to be a value, usually a number |
   | Player | setHand(cards) | Set the players hand to equal those cards |
   |  | setNeighbors(lID, rID) | Set L & R neighbor ids |
-  |  | sortHandByValue() | Sorts hand by scoring algo |
+  |  | preparePlay() | Assigns cardToPlay and cardsToPass based on ai sorting algo |
   |  | playCard(evaluatePlay) | Plays the best card, and evaluates if it was effected by any other player's played card |
   |  | passCards() | Passes all other non-played cards |
   |  | getCardsByName(name) | Gets all cards of the specified name in the desserts/playedCards for this player |
@@ -53,8 +53,9 @@
   |  | isDessert | Boolean for if this card is a dessert card |
   | Player | id | Unique player id |
   |  | hand | Array of cards in the player's hand |
+  |  | cardToPlay | Card ready to play |
   |  | cardsToPass | Cards ready to be passed to the neighbor |
-  |  | scoringAlgorithm | Set the scoring algo that will define best sorting methodology for the players hand |
+  |  | scoringAlgorithm | Return hand sorted from best to worst; given hand & boardstates |
   |  | boardState | Properties between the player and other board states |
   |  | boardState.score | The player's score |
   |  | boardState.round | The current round, maybe useful in the scoring algo |

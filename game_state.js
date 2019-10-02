@@ -15,11 +15,11 @@ module.exports.GameState = class {
   }
 
   playATurn = () => {
-    // TODO: complete play will need all plays expected to be accurate
-    // eslint-disable-next-line no-unused-vars
-    const cardsPlayed = this.players.map(player => player.sortHandByValue()[0]);
+    const boardStates = this.players.map(player => player.boardState);
+    this.players.forEach(player => player.preparePlay(boardStates));
 
-    this.players.forEach(player => player.playCard());
+    const cardsPlayed = this.players.map(player => player.cardToPlay);
+    this.players.forEach(player => player.playCard(cardsPlayed));
 
     this.players.forEach(player => player.passCards(this.players));
   };

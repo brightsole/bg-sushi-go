@@ -10,11 +10,13 @@ module.exports.Player = class {
     desserts = [],
     neighbors = [],
     playedCards = [],
-    scoringAlgorithm = (a, b) => a.name >= b.name,
+    scoringAlgorithm = someHand =>
+      someHand.sort(() => (Math.random() > 0.5 ? 1 : -1)),
   } = {}) {
     this.id = id;
     this.hand = hand;
     this.cardsToPass = [];
+    this.cardToPlay = undefined;
     this.scoringAlgorithm = scoringAlgorithm;
 
     this.boardState = {
@@ -46,23 +48,23 @@ module.exports.Player = class {
     this.boardState.neighbors = [leftId, rightId];
   };
 
-  sortHandByValue = () => {
-    const bestToWorst = this.hand.sort((a, b) =>
-      this.scoringAlgorithm(a, b) ? -1 : 1
-    );
-    return bestToWorst;
+  preparePlay = boardStates => {
+    const sortedHand = this.scoringAlgorithm(this.hand, boardStates);
+    const [bestCard, ...cardsToPass] = sortedHand;
+
+    this.cardToPlay = bestCard;
+    this.cardsToPass = cardsToPass;
   };
 
-  playCard = (evaluatePlay = card => card) => {
-    const sortedCards = this.sortHandByValue();
+  playCard = otherCardsBeingPlayed => {
     const playedState = this.boardState.playedCards;
 
-    const bestCard = sortedCards[0];
-    this.boardState.playedCards = playedState.concat(evaluatePlay(bestCard));
-
-    this.cardsToPass = sortedCards.slice(1);
+    this.boardState.playedCards = playedState.concat(
+      this.cardToPlay.play(this.cardToPlay, otherCardsBeingPlayed)
+    );
 
     this.setHand([]);
+    this.cardToPlay = undefined;
   };
 
   passCards = players => {
