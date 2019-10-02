@@ -127,10 +127,8 @@
       1. fruit
 
   3. roll
-      1. setup
       1. maki
       1. uramaki
-      1. temaki
 
   4. special
       1. specialOrder

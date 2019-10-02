@@ -21,11 +21,11 @@ const scorePudding = (desserts, otherPlayerBoardstates) => {
 
   const minOther = otherPlayersPuddings.reduce(
     (min, puddings) => (puddings.length < min ? puddings.length : min),
-    100
+    Infinity
   );
   const maxOther = otherPlayersPuddings.reduce(
     (max, puddings) => (puddings.length > max ? puddings.length : max),
-    0
+    -Infinity
   );
 
   const puddingsCount = desserts.length;
