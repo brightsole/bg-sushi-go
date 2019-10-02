@@ -2,6 +2,18 @@ const misoSoup = {
   name: 'miso soup',
   color: 'blue-green',
   valueDescription: '3, discard if other played on turn',
+  play: (card, allPlayedCards) => {
+    const otherPlayedCards = allPlayedCards.filter(c => c.id !== card.id);
+
+    if (otherPlayedCards.some(playedCard => playedCard.name === 'miso soup')) {
+      card.setScore(0);
+      card.flip();
+    } else {
+      card.setScore(3);
+    }
+
+    return card;
+  },
 };
 const edamame = {
   minPlayers: 3,
