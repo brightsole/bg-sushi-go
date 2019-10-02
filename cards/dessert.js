@@ -13,9 +13,9 @@ const greenTeaIceCream = {
 };
 
 const scorePudding = (desserts, otherPlayerBoardstates) => {
-  const otherPlayersPuddings = otherPlayerBoardstates.map(boardstate =>
-    boardstate.desserts.concat(
-      boardstate.playedCards.filter(card => card.isDessert)
+  const otherPlayersPuddings = otherPlayerBoardstates.map(boardState =>
+    boardState.desserts.concat(
+      boardState.playedCards.filter(card => card.isDessert)
     )
   );
 

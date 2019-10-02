@@ -7,6 +7,19 @@ const edamame = {
   minPlayers: 3,
   name: 'edamame',
   color: 'purple',
+  value: (edamameCards, otherPlayerBoardstates) => {
+    const playedEdamame = otherPlayerBoardstates.reduce(
+      (played, boardstate) =>
+        boardstate.playedCards.some(card => card.name === 'edamame')
+          ? played + 1
+          : played,
+      0
+    );
+
+    const scoreMultiplier = playedEdamame > 4 ? 4 : playedEdamame;
+
+    return edamameCards.length * scoreMultiplier;
+  },
   valueDescription: '1 x opponent with edamame (max 4)',
 };
 const dumpling = {
