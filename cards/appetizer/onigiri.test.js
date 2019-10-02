@@ -1,5 +1,5 @@
 import test from 'ava';
-import appetizers from '../appetizer';
+import appetizers from './index';
 
 const onigiri = appetizers.find(appetizer => appetizer.name === 'onigiri');
 
