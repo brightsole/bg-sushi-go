@@ -63,15 +63,22 @@ const onigiri = {
   color: 'bright-pink',
   valueDescription: 'x shape: 1, 4, 9, 16',
   value: onigiriCards => {
-    const validSets = onigiriCards.reduce(
-      (sets, card) => {
-        const shape = Object.keys(card.shapes)[0]; // only 1 possible shape
+    const validSets = onigiriCards.reduce((sets, card) => {
+      const shape = Object.keys(card.shapes)[0]; // only 1 possible shape
 
-        if (sets[0].includes(shape)) return [sets[0], sets[1].concat(shape)];
-        return [sets[0].concat(shape), sets[1]];
-      },
-      [[], []] // max 2 in any set
-    );
+      const lowestIndex = sets.reduce(
+        (res, set, i) => (set.includes(shape) ? i + 1 : res),
+        0
+      );
+
+      if (!sets[lowestIndex]) return [...sets, [shape]];
+
+      const shapeSet = sets[lowestIndex];
+      const before = sets.slice(0, lowestIndex);
+      const after = sets.slice(lowestIndex + 1);
+
+      return [...before, shapeSet.concat(shape), ...after];
+    }, []);
 
     return validSets.reduce((sum, set) => sum + set.length ** 2, 0);
   },
