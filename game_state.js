@@ -65,6 +65,7 @@ module.exports.GameState = class {
         a.boardState.score > b.boardState.score ? -1 : 1
       )[0];
       console.log('winner: ', winner, 'wins with: ', winner.boardState.score);
+      console.log(winner.history);
     } else {
       // otherwise, give all players their hands
       this.players.forEach(player =>

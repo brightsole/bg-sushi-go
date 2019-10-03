@@ -1,5 +1,6 @@
 const nanoid = require('nanoid');
 const { scoreCards } = require('./cards');
+const { sum, playCard } = require('./history');
 
 module.exports.Player = class {
   constructor({
@@ -10,6 +11,7 @@ module.exports.Player = class {
     desserts = [],
     neighbors = [],
     playedCards = [],
+    loggingEnabled = false,
     scoringAlgorithm = someHand =>
       someHand.sort(() => (Math.random() > 0.5 ? 1 : -1)),
   } = {}) {
@@ -17,7 +19,10 @@ module.exports.Player = class {
     this.hand = hand;
     this.cardsToPass = [];
     this.cardToPlay = undefined;
+    this.loggingEnabled = loggingEnabled;
     this.scoringAlgorithm = scoringAlgorithm;
+    this.history = '';
+    // TODO: refactor config options to cleaner nested structure?
 
     this.boardState = {
       score,
@@ -58,6 +63,9 @@ module.exports.Player = class {
 
   playCard = otherCardsBeingPlayed => {
     const playedState = this.boardState.playedCards;
+    this.history += this.loggingEnabled
+      ? playCard({ id: this.id, card: this.cardToPlay })
+      : '';
 
     this.boardState.playedCards = playedState.concat(
       this.cardToPlay.play(this.cardToPlay, otherCardsBeingPlayed)
@@ -94,11 +102,21 @@ module.exports.Player = class {
       dessertTypes.forEach(dessertBaseType => {
         const dessertCards = this.getCardsByName(dessertBaseType.name);
 
-        this.boardState.score += scoreCards(
+        const cardsSum = scoreCards(
           dessertCards,
           dessertBaseType,
           otherPlayerBoardstates
         );
+
+        this.history += this.loggingEnabled
+          ? sum({
+              id: this.id,
+              sum: cardsSum,
+              cards: dessertCards,
+              cardType: dessertBaseType,
+            })
+          : '';
+        this.boardState.score += cardsSum;
       });
     }
 
@@ -107,14 +125,33 @@ module.exports.Player = class {
       .forEach(cardTypeName => {
         const baseCardTypes = gameType[cardTypeName];
         baseCardTypes.forEach(baseCardType => {
-          const cards = this.getCardsByName(baseCardType.name);
-          this.boardState.score += scoreCards(
+          // can't use getCardsByName because old desserts aren't counted
+          // in things like color counting
+          const cards = this.boardState.playedCards.filter(
+            c => c.name === baseCardType.name
+          );
+
+          const cardsSum = scoreCards(
             cards,
             baseCardType,
-            otherPlayerBoardstates
+            otherPlayerBoardstates,
+            this.boardState.cards // not used in any dessert scoring
           );
+
+          this.history += this.loggingEnabled
+            ? sum({
+                cardType: baseCardType,
+                sum: cardsSum,
+                id: this.id,
+                cards,
+              })
+            : '';
+          this.boardState.score += cardsSum;
         });
       });
+    // so, some thoughts on this:
+    // dessert scoring and card scoring is becoming a boatload of props passing
+    // it might be time to do a refactor in how scores are assessed.
 
     this.boardState.score += scoreCards(
       this.boardState.playedCards.filter(card => !card.isDessert),

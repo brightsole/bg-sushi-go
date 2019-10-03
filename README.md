@@ -55,6 +55,8 @@
   | Player | id | Unique player id |
   |  | hand | Array of cards in the player's hand |
   |  | cardToPlay | Card ready to play |
+  |  | loggingEnabled | Append events to a fixed-width log buffer |
+  |  | history | Fixed width logging text blob, good for debugging |
   |  | cardsToPass | Cards ready to be passed to the neighbor |
   |  | scoringAlgorithm | Return hand sorted from best to worst; given hand & boardstates |
   |  | boardState | Properties between the player and other board states |
@@ -102,7 +104,7 @@
   1. Scoring algorithm is **fully random.** not ideal
   2. Players unable to activate specials that have been previously played
   3. players with different AI unable to be passed in to the `setup` function
-  4. Evaluating score has bugs
+  4. Evaluating score is not done
       1. include `roll` scoring
       1. include `special` scoring
 
