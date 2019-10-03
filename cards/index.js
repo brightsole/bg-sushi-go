@@ -67,9 +67,14 @@ module.exports.generateCardSet = ({ type, gameCardType }) => {
 // if the cardType has a value function, return its execution, which will
 // score all cards of that type.
 // otherwise, sum the card values for that card type
-module.exports.scoreCards = (cards, cardBaseType, otherPlayerBoardstates) =>
+module.exports.scoreCards = (
+  cards,
+  cardBaseType,
+  otherPlayerBoardstates,
+  allPlayedCards
+) =>
   typeof cardBaseType.value === 'function'
-    ? cardBaseType.value(cards, otherPlayerBoardstates)
+    ? cardBaseType.value(cards, otherPlayerBoardstates, allPlayedCards)
     : cards.reduce((total, card) => {
         if (typeof card.value === 'number') return total + card.value;
 
