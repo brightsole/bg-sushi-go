@@ -21,28 +21,26 @@ const edamame = {
   minPlayers: 3,
   name: 'edamame',
   color: 'purple',
-  value: (edamameCards, otherPlayerBoardstates) => {
+  valueDescription: '1 x opponent with edamame (max 4)',
+  value: ({ cardsOfTypePlayed: edamameCards, otherCardsOfType }) => {
     clearCardsUsedInSum(edamameCards);
 
-    const playedEdamame = otherPlayerBoardstates.reduce(
-      (played, boardstate) =>
-        boardstate.playedCards.some(card => card.name === 'edamame')
-          ? played + 1
-          : played,
+    const othersThatPlayedIt = otherCardsOfType.reduce(
+      (sum, cardsOfType) => (cardsOfType.length ? sum + 1 : sum),
       0
     );
 
-    const scoreMultiplier = playedEdamame > 4 ? 4 : playedEdamame;
+    // cap the maximum multiplier at 4
+    const scoreMultiplier = othersThatPlayedIt > 4 ? 4 : othersThatPlayedIt;
 
     return edamameCards.length * scoreMultiplier;
   },
-  valueDescription: '1 x opponent with edamame (max 4)',
 };
 const dumpling = {
   name: 'dumpling',
   color: 'light-blue',
   valueDescription: '1, 3, 6, 10, 15',
-  value: dumplingCards => {
+  value: ({ cardsOfTypePlayed: dumplingCards }) => {
     clearCardsUsedInSum(dumplingCards);
 
     const count = dumplingCards.length;
@@ -58,7 +56,7 @@ const tofu = {
   name: 'tofu',
   color: 'light-green',
   valueDescription: 'x1: 2, x2: 6, x3+: 0',
-  value: tofuCards => {
+  value: ({ cardsOfTypePlayed: tofuCards }) => {
     clearCardsUsedInSum(tofuCards);
 
     const count = tofuCards.length;
@@ -71,7 +69,7 @@ const sashimi = {
   name: 'sashimi',
   color: 'bright-green',
   valueDescription: 'x3: 10',
-  value: sashimiCards => {
+  value: ({ cardsOfTypePlayed: sashimiCards }) => {
     clearCardsUsedInSum(sashimiCards);
 
     return sashimiCards.length && sashimiCards.length % 3 === 0
@@ -83,7 +81,7 @@ const eel = {
   name: 'eel',
   color: 'blue-purple',
   valueDescription: 'x1: -3, x2+: 7',
-  value: eelCards => {
+  value: ({ cardsOfTypePlayed: eelCards }) => {
     clearCardsUsedInSum(eelCards);
 
     return eelCards.length >= 2 ? 7 : -3;
@@ -93,7 +91,7 @@ const tempura = {
   name: 'tempura',
   color: 'light-pink',
   valueDescription: 'x2: 5',
-  value: tempuraCards => {
+  value: ({ cardsOfTypePlayed: tempuraCards }) => {
     clearCardsUsedInSum(tempuraCards);
 
     return tempuraCards.length && tempuraCards.length % 2 === 0
@@ -105,7 +103,7 @@ const onigiri = {
   name: 'onigiri',
   color: 'bright-pink',
   valueDescription: 'x shape: 1, 4, 9, 16',
-  value: onigiriCards => {
+  value: ({ cardsOfTypePlayed: onigiriCards }) => {
     clearCardsUsedInSum(onigiriCards);
 
     const validSets = onigiriCards.reduce((sets, card) => {

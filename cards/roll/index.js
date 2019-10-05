@@ -3,11 +3,10 @@ const temaki = {
   color: 'dark-purple',
   shapes: { temaki: 1 },
   valueDescription: 'most 4, min -4 | 2p: min 0',
-  value: (temakiCards, otherPlayerBoardstates) => {
-    const otherPlayersTemaki = otherPlayerBoardstates.map(boardState =>
-      boardState.playedCards.filter(card => card.name === 'temaki')
-    );
-
+  value: ({
+    cardsOfTypePlayed: temakiCards,
+    otherCardsOfType: otherPlayersTemaki,
+  }) => {
     const minOther = otherPlayersTemaki.reduce(
       (min, rolls) => (rolls.length < min ? rolls.length : min),
       Infinity
@@ -19,7 +18,7 @@ const temaki = {
 
     const temakiCount = temakiCards.length;
 
-    const playerCount = otherPlayerBoardstates.length + 1;
+    const playerCount = otherPlayersTemaki.length + 1;
     const minimumScore = playerCount === 2 ? 0 : -4;
 
     const shouldGainMin = temakiCount <= minOther ? minimumScore : 0;
@@ -65,11 +64,9 @@ const maki = {
   name: 'maki',
   color: 'red',
   valueDescription: 'max: 6, 3 | 6p+: 6, 4, 2',
-  value: (makiCards, otherPlayerBoardstates) => {
+  value: ({ cardsOfTypePlayed: makiCards, otherCardsOfType }) => {
     const ourMakiCount = getMakiCount(makiCards);
-    const otherMakiCounts = otherPlayerBoardstates.map(boardState =>
-      getMakiCount(boardState.playedCards)
-    );
+    const otherMakiCounts = otherCardsOfType.map(makis => makis.length);
 
     // unlike uramaki, tied scoring does not occupy lower scoring positions
     // so the [...new Set] is used as a cheap `unique` to allow ties in this way
@@ -79,7 +76,7 @@ const maki = {
 
     const ourPosition = allCounts.findIndex(count => count === ourMakiCount);
 
-    const playerCount = otherPlayerBoardstates.length + 1;
+    const playerCount = otherCardsOfType.length + 1;
     const scores = playerCount >= 6 ? [6, 4, 2] : [6, 3];
 
     makiCards.forEach(makiCard => makiCard.setScore(0));

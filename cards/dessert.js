@@ -1,8 +1,16 @@
-const scoreGreenTea = desserts => {
+const getDesserts = (player, cardName) =>
+  player.boardState.playedCards
+    .concat(player.boardState.desserts)
+    .filter(c => c.name === cardName);
+
+const scoreGreenTea = ({ player }) => {
+  const greenTeaCards = getDesserts(player, 'green tea ice cream');
   const totalScore =
-    desserts.length && desserts.length % 4 === 0 ? 3 * desserts.length : 0;
+    greenTeaCards.length && greenTeaCards.length % 4 === 0
+      ? 3 * greenTeaCards.length
+      : 0;
   // set the score to zero to not double-count
-  desserts.forEach(dessert => dessert.setScore(0));
+  greenTeaCards.forEach(dessert => dessert.setScore(0));
   return totalScore;
 };
 const greenTeaIceCream = {
@@ -12,12 +20,9 @@ const greenTeaIceCream = {
   name: 'green tea ice cream',
 };
 
-const scorePudding = (desserts, otherPlayerBoardstates) => {
-  const otherPlayersPuddings = otherPlayerBoardstates.map(boardState =>
-    boardState.desserts.concat(
-      boardState.playedCards.filter(card => card.name === 'pudding')
-    )
-  );
+const scorePudding = ({ player, players }) => {
+  const puddingCards = getDesserts(player, 'pudding');
+  const otherPlayersPuddings = players.map(p => getDesserts(p, 'pudding'));
 
   const minOther = otherPlayersPuddings.reduce(
     (min, puddings) => (puddings.length < min ? puddings.length : min),
@@ -28,7 +33,7 @@ const scorePudding = (desserts, otherPlayerBoardstates) => {
     -Infinity
   );
 
-  const puddingsCount = desserts.length;
+  const puddingsCount = puddingCards.length;
   const shouldGainMin = puddingsCount <= minOther ? -6 : 0;
   const shouldGainMax = puddingsCount >= maxOther ? 6 : 0;
 
@@ -36,7 +41,7 @@ const scorePudding = (desserts, otherPlayerBoardstates) => {
   const totalScore = shouldGainMin + shouldGainMax;
 
   // set the score to zero to not double-count
-  desserts.forEach(dessert => dessert.setScore(0));
+  puddingCards.forEach(dessert => dessert.setScore(0));
   return totalScore;
 };
 const pudding = {
@@ -46,7 +51,7 @@ const pudding = {
   valueDescription: 'most: 6, least: -6',
 };
 
-const fruitScore = numberOfFruit => {
+const fruitCountToScore = numberOfFruit => {
   if (numberOfFruit === 0) return -2;
   if (numberOfFruit === 1) return 0;
   if (numberOfFruit === 2) return 1;
@@ -54,8 +59,9 @@ const fruitScore = numberOfFruit => {
   if (numberOfFruit === 4) return 6;
   return 10;
 };
-const scoreFruit = desserts => {
-  const [oranges, pineapples, watermelons] = desserts.reduce(
+const scoreFruit = ({ player }) => {
+  const fruitCards = getDesserts(player, 'fruit');
+  const [oranges, pineapples, watermelons] = fruitCards.reduce(
     ([sumOrange, sumPineapple, sumWatermelon], card) => {
       const { orange = 0, pineapple = 0, watermelon = 0 } = card.shapes;
 
@@ -69,12 +75,12 @@ const scoreFruit = desserts => {
   );
 
   const totalScore = [oranges, pineapples, watermelons].reduce(
-    (total, count) => total + fruitScore(count),
+    (total, count) => total + fruitCountToScore(count),
     0
   );
 
   // set the score to zero to not double-count
-  desserts.forEach(dessert => dessert.setScore(0));
+  fruitCards.forEach(dessert => dessert.setScore(0));
   return totalScore;
 };
 const fruit = {

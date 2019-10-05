@@ -1,6 +1,6 @@
 const nanoid = require('nanoid');
 const { scoreCards } = require('./cards');
-const { sum, playCard } = require('./history');
+const { playCard } = require('./history');
 
 module.exports.Player = class {
   constructor({
@@ -84,38 +84,21 @@ module.exports.Player = class {
     this.cardsToPass = [];
   };
 
-  getCardsByName = name => {
-    return this.boardState.playedCards
-      .concat(this.boardState.desserts)
-      .filter(card => card.name === name);
-  };
-
-  scoreBoard = (round, gameType, otherPlayerBoardstates) => {
+  scoreBoard = (round, gameType, players) => {
     this.boardState.round = round;
 
     // TODO: fix round to be 1,2,3 instead of 2,3,4
+    // score the desserts on the final round
     if (round > 3) {
-      // score the desserts on the final round
-      // allows for more than 1 variety of dessert
-      // *(no guarantee deck construction will work with nonstandard dessert #s yet)*
       const dessertTypes = gameType.dessert;
-      dessertTypes.forEach(dessertBaseType => {
-        const dessertCards = this.getCardsByName(dessertBaseType.name);
 
-        const cardsSum = scoreCards(
-          dessertCards,
-          dessertBaseType,
-          otherPlayerBoardstates
-        );
+      dessertTypes.forEach(dessertType => {
+        const cardsSum = scoreCards({
+          cardType: dessertType,
+          playerId: this.id,
+          players,
+        });
 
-        this.history += this.loggingEnabled
-          ? sum({
-              id: this.id,
-              sum: cardsSum,
-              cards: dessertCards,
-              cardType: dessertBaseType,
-            })
-          : '';
         this.boardState.score += cardsSum;
       });
     }
@@ -124,38 +107,16 @@ module.exports.Player = class {
       .filter(e => e !== 'dessert')
       .forEach(cardTypeName => {
         const baseCardTypes = gameType[cardTypeName];
-        baseCardTypes.forEach(baseCardType => {
-          // can't use getCardsByName because old desserts aren't counted
-          // in things like color counting
-          const cards = this.boardState.playedCards.filter(
-            c => c.name === baseCardType.name
-          );
 
-          const cardsSum = scoreCards(
-            cards,
-            baseCardType,
-            otherPlayerBoardstates,
-            this.boardState.cards // not used in any dessert scoring
-          );
+        baseCardTypes.forEach(cardType => {
+          const cardsSum = scoreCards({
+            playerId: this.id,
+            cardType,
+            players,
+          });
 
-          this.history += this.loggingEnabled
-            ? sum({
-                cardType: baseCardType,
-                sum: cardsSum,
-                id: this.id,
-                cards,
-              })
-            : '';
           this.boardState.score += cardsSum;
         });
       });
-    // so, some thoughts on this:
-    // dessert scoring and card scoring is becoming a boatload of props passing
-    // it might be time to do a refactor in how scores are assessed.
-
-    this.boardState.score += scoreCards(
-      this.boardState.playedCards.filter(card => !card.isDessert),
-      otherPlayerBoardstates
-    );
   };
 };
