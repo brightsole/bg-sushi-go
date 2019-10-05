@@ -3,9 +3,6 @@ const chopsticks = {
   color: 'light-cyan',
   valueDescription: 'announce: play 2 in hand, put chopsticks in hand',
 };
-// this will need all played cards for the player, currently boardstates
-// doesn't include the player doing the scoring
-// scoring algo needs ammended
 const soySauce = {
   name: 'soy sauce',
   color: 'yellow-orange',
@@ -38,6 +35,23 @@ const tea = {
   name: 'tea',
   color: 'dark-red',
   valueDescription: '1score x largest color set',
+  value: ({ cardsOfTypePlayed: teaCards, player }) => {
+    const teaCount = teaCards.length;
+
+    const countMap = player.boardState.playedCards.reduce(
+      (counts, card) =>
+        counts[card.color]
+          ? { ...counts, [card.color]: counts[card.color] + 1 }
+          : { ...counts, [card.color]: 1 },
+      {}
+    );
+
+    const maxCount =
+      Object.values(countMap).sort((a, b) => (a > b ? -1 : 1))[0] || 0;
+
+    teaCards.forEach(t => t.setScore(0));
+    return maxCount * teaCount;
+  },
 };
 const wasabi = {
   name: 'wasabi',
