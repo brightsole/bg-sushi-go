@@ -9,6 +9,7 @@ module.exports.GameState = class {
   constructor({ deck, dessertCards, players, gameType, round = 1, turn = 1 }) {
     this.cards = { deck, dessertCards };
     this.gameType = gameType;
+    this.winner = undefined;
     this.players = players;
     this.round = round;
     this.turn = turn;
@@ -59,13 +60,12 @@ module.exports.GameState = class {
       dessertCards,
     });
 
-    // if final round, log score
+    // set winner in final round
     if (this.round > 3) {
       const winner = this.players.sort((a, b) =>
         a.boardState.score > b.boardState.score ? -1 : 1
       )[0];
-      console.log('winner: ', winner, 'wins with: ', winner.boardState.score);
-      console.log(winner.history);
+      this.winner = winner;
     } else {
       // otherwise, give all players their hands
       this.players.forEach(player =>

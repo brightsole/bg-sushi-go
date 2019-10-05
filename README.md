@@ -42,6 +42,7 @@
   |  | cards.dessertCards | Storage of the unused dessert cards |
   |  | cards.deck | Storage of deck cards not in hand or played on board |
   |  | players | Storage of players in the game |
+  |  | winner | Locked in at the end of a game as the winning player |
   |  | gameType | cardType: [selected types] game type storage |
   |  | round = 1 | Storage of the round currently being played |
   |  | turn = 1 | Storage of the turn currently being played |
@@ -107,11 +108,6 @@
   4. Evaluating score is not done
       1. include `roll` scoring
       1. include `special` scoring
-
-
-  #### NICE TO HAVE:
-  1. output is logged, return the value so that algo fitness may be evaluated
-
 
   ### TESTS TO DO:
   1. appetizers

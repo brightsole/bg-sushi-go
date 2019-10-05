@@ -92,13 +92,13 @@ module.exports.prepareDeck = ({ cardTypeNames, playerCount, round = 1 }) => {
   const gameTypeCards = cardTypeNames
     ? createGameType(cardTypeNames, playerCount)
     : randomGameType(playerCount);
-  console.log(
-    'gametype selected: ',
-    Object.keys(gameTypeCards)
-      .flatMap(e => `\n${e}: ${gameTypeCards[e].map(f => f.name).join(', ')}`)
-      .join(''),
-    '\n'
-  );
+  // console.log(
+  //   'gametype selected: ',
+  //   Object.keys(gameTypeCards)
+  //     .flatMap(e => `\n${e}: ${gameTypeCards[e].map(f => f.name).join(', ')}`)
+  //     .join(''),
+  //   '\n'
+  // );
 
   const allCards = Object.keys(gameTypeCards).reduce((all, type) => {
     const options = gameTypeCards[type];
