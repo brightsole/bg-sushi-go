@@ -56,9 +56,7 @@ const uramaki = {
 };
 
 const getMakiCount = cards =>
-  cards
-    .filter(card => card.name === 'maki')
-    .reduce((sum, makiCard) => sum + makiCard.shapes.maki, 0);
+  cards.reduce((sum, makiCard) => sum + makiCard.shapes.maki, 0);
 
 const maki = {
   name: 'maki',
@@ -66,7 +64,7 @@ const maki = {
   valueDescription: 'max: 6, 3 | 6p+: 6, 4, 2',
   value: ({ cardsOfTypePlayed: makiCards, otherCardsOfType }) => {
     const ourMakiCount = getMakiCount(makiCards);
-    const otherMakiCounts = otherCardsOfType.map(makis => makis.length);
+    const otherMakiCounts = otherCardsOfType.map(makis => getMakiCount(makis));
 
     // unlike uramaki, tied scoring does not occupy lower scoring positions
     // so the [...new Set] is used as a cheap `unique` to allow ties in this way

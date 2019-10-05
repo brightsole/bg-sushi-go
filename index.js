@@ -1,4 +1,3 @@
-// const { Signale } = require('signale');
 const { setup } = require('./setup');
 
 // // for a consistent setup, the following is nice
@@ -30,7 +29,9 @@ console.log(
     playerCount
 );
 
-// grab some stats from many random games!
+// // grab some stats from many random games!
+// // const { Signale } = require('signale');
+
 // const progressLog = new Signale({ interactive: true, scope: 'progress' });
 // const TIMES = 2000;
 
