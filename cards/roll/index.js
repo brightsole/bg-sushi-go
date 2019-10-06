@@ -33,6 +33,16 @@ const temaki = {
   },
 };
 
+const getUramakiSum = cards =>
+  cards.reduce((sum, uCard) => sum + uCard.shapes.uramaki, 0);
+
+const whenScoredToScore = whenScored => {
+  if (whenScored === 0) return 10;
+  if (whenScored === 1) return 8;
+  if (whenScored === 2) return 5;
+  if (whenScored === 3) return 2;
+  return 0;
+};
 const uramaki = {
   name: 'uramaki',
   color: 'bright-green',
@@ -46,8 +56,39 @@ const uramaki = {
   //  [player.cardToPlay.concat(player.boardState.playedCards)],
   //  selfBoardState
   // ) => {},
-  //  :point_up: that's hairy, probably denotes necessary refactor
-  // value: () also necessary because unflipped cards at end of round might be scored
+  // because players were cloned, there's no risk of flipped/unflipped changing during
+  // the end-of-round scoring calc done here
+  value: ({ cardsOfTypePlayed: uramakiCards, otherCardsOfType, players }) => {
+    const ourUnscoredUramaki = uramakiCards.filter(c => !c.flipped);
+    const ourUnscoredSum = getUramakiSum(ourUnscoredUramaki);
+
+    const otherUnscoredSums = otherCardsOfType.map(cards =>
+      getUramakiSum(cards.filter(c => !c.flipped))
+    );
+
+    const lowestUnoccupiedScoreIndex = players.reduce((lowestIndex, player) => {
+      // only 1 card is assigned a non-zero score when flipping during play
+      const scoredUramaki = player.boardState.playedCards.filter(
+        c => c.name === 'uramaki' && c.flipped && c.value > 0
+      );
+
+      return lowestIndex + scoredUramaki.length;
+    }, 0);
+
+    const unflippedIndex = [...otherUnscoredSums, ourUnscoredSum]
+      .sort((a, b) => (a > b ? -1 : 1))
+      .findIndex(s => s === ourUnscoredSum);
+
+    // findIndex allows for ties
+    const finalScore = whenScoredToScore(
+      lowestUnoccupiedScoreIndex + unflippedIndex
+    );
+
+    // likely some cards were already assigned scores & flipped
+    // only necessary to setScore on the remainder
+    ourUnscoredUramaki.forEach(uCard => uCard.setScore(0));
+    return finalScore;
+  },
   types: [
     { count: 4, shapes: { uramaki: 3 } },
     { count: 4, shapes: { uramaki: 4 } },

@@ -106,8 +106,10 @@
   2. Players unable to activate specials that have been previously played
   3. players with different AI unable to be passed in to the `setup` function
   4. Evaluating score is not done
-      1. include `roll` scoring
       1. include `special` scoring
+  5. Evaluating `play`
+      1. keep props passing shape upgrades from `value`
+      2. specials
 
   ### TESTS TO DO:
   1. appetizers
@@ -123,10 +125,6 @@
       1. greenTeaIceCream
       1. pudding
       1. fruit
-
-  3. roll
-      1. maki
-      1. uramaki
 
   4. special
       1. specialOrder
