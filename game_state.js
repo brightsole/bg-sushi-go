@@ -22,7 +22,12 @@ module.exports.GameState = class {
     this.players.forEach(player => player.preparePlay(boardStates));
 
     const cardsPlayed = this.players.map(player => player.cardToPlay);
-    this.players.forEach(player => player.playCard(cardsPlayed));
+    const expectedPlayedCards = this.players.map(player =>
+      player.boardState.cardsPlayed.concat(player.cardToPlay)
+    );
+    this.players.forEach(player =>
+      player.playCard(cardsPlayed, expectedPlayedCards)
+    );
 
     this.players.forEach(player => player.passCards(this.players));
   };

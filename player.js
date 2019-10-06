@@ -61,7 +61,7 @@ module.exports.Player = class {
     this.cardsToPass = cardsToPass;
   };
 
-  playCard = allPlayedCards => {
+  playCard = (allPlayedCards, expectedPlayedCards) => {
     const { playedCards } = this.boardState;
 
     this.history += this.loggingEnabled
@@ -71,6 +71,7 @@ module.exports.Player = class {
     this.cardToPlay.play({
       boardState: this.boardState,
       card: this.cardToPlay,
+      expectedPlayedCards,
       allPlayedCards,
     });
 

@@ -1,7 +1,7 @@
 import test from 'ava';
-import appetizers from './index';
+import rolls from './index';
 
-const temaki = appetizers.find(appetizer => appetizer.name === 'temaki');
+const temaki = rolls.find(roll => roll.name === 'temaki');
 
 const tMock = { setScore: () => {} };
 

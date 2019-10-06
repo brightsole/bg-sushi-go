@@ -1,7 +1,7 @@
 import test from 'ava';
-import appetizers from './index';
+import rolls from './index';
 
-const maki = appetizers.find(appetizer => appetizer.name === 'maki');
+const maki = rolls.find(roll => roll.name === 'maki');
 
 const mSingleMock = { setScore: () => {}, shapes: { maki: 1 } };
 const mDoubleMock = { setScore: () => {}, shapes: { maki: 2 } };
