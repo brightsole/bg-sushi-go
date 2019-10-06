@@ -56,7 +56,7 @@ const menu = {
   name: 'menu',
   maxPlayers: 6,
   color: 'light-yellow',
-  valueDescription: 'draw 4, play one, shuffle',
+  valueDescription: 'draw 4, play one, return menu & rest',
 };
 
 const tea = {

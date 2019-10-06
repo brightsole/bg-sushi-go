@@ -23,7 +23,7 @@ module.exports.GameState = class {
 
     const cardsPlayed = this.players.map(player => player.cardToPlay);
     const expectedPlayedCards = this.players.map(player =>
-      player.boardState.cardsPlayed.concat(player.cardToPlay)
+      player.boardState.playedCards.concat(player.cardToPlay)
     );
     this.players.forEach(player =>
       player.playCard(cardsPlayed, expectedPlayedCards)

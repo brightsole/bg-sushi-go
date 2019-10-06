@@ -62,7 +62,7 @@ const uramaki = {
       playerCards => !playerCards.find(c => c.id === card.id)
     );
     const otherUnscoredSums = otherExpectedPlayed
-      .map(cards => getUnscoredSum(cards))
+      .map(cards => getUnscoredSum(getUnscoredUramaki(cards)))
       .filter(sum => sum >= 10);
 
     const lowestUnoccupiedScoreIndex = otherExpectedPlayed.reduce(
