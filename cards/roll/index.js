@@ -33,7 +33,9 @@ const temaki = {
   },
 };
 
-const getUramakiSum = cards =>
+const getUnscoredUramaki = cards =>
+  cards.filter(c => c.name === 'uramaki' && !c.flipped);
+const getUnscoredSum = cards =>
   cards.reduce((sum, uCard) => sum + uCard.shapes.uramaki, 0);
 
 const whenScoredToScore = whenScored => {
@@ -47,23 +49,50 @@ const uramaki = {
   name: 'uramaki',
   color: 'bright-green',
   valueDescription: 'first to 10: 8, 5, 2',
-  // so, the in-game description of scoring expects you to score
-  // immediately, but we may assign score, and flip, assigning the same
-  // scores at the end of round by setting card values at time of play
-  // play: (
-  //  card,
-  //  allPlayedCards,  // unused
-  //  [player.cardToPlay.concat(player.boardState.playedCards)],
-  //  selfBoardState
-  // ) => {},
-  // because players were cloned, there's no risk of flipped/unflipped changing during
-  // the end-of-round scoring calc done here
+  // TODO: play is very similar to value, possible refactor?
+  play: ({ card, boardState, expectedPlayedCards }) => {
+    const ourUnscored = getUnscoredUramaki(boardState.playedCards);
+    const ourUnscoredSum = getUnscoredSum(ourUnscored);
+
+    const thisPlaySum = ourUnscoredSum + card.shapes.uramaki;
+    if (thisPlaySum < 10) return;
+
+    // exclude ourself from totals
+    const otherExpectedPlayed = expectedPlayedCards.filter(
+      playerCards => !playerCards.find(c => c.id === card.id)
+    );
+    const otherUnscoredSums = otherExpectedPlayed
+      .map(cards => getUnscoredSum(cards))
+      .filter(sum => sum >= 10);
+
+    const lowestUnoccupiedScoreIndex = otherExpectedPlayed.reduce(
+      (lowestIndex, cards) => {
+        // only 1 card is assigned a non-zero score when flipping during play
+        const scoredUramaki = cards.filter(
+          c => c.name === 'uramaki' && c.flipped && c.value > 0
+        );
+
+        return lowestIndex + scoredUramaki.length;
+      },
+      0
+    );
+    const unflippedIndex = [...otherUnscoredSums, ourUnscoredSum]
+      .sort((a, b) => (a > b ? -1 : 1))
+      .findIndex(s => s === ourUnscoredSum);
+
+    const finalScore = whenScoredToScore(
+      lowestUnoccupiedScoreIndex + unflippedIndex
+    );
+
+    card.setScore(finalScore);
+    ourUnscored.map(uCard => uCard.setScore(0));
+  },
   value: ({ cardsOfTypePlayed: uramakiCards, otherCardsOfType, players }) => {
     const ourUnscoredUramaki = uramakiCards.filter(c => !c.flipped);
-    const ourUnscoredSum = getUramakiSum(ourUnscoredUramaki);
+    const ourUnscoredSum = getUnscoredSum(ourUnscoredUramaki);
 
     const otherUnscoredSums = otherCardsOfType.map(cards =>
-      getUramakiSum(cards.filter(c => !c.flipped))
+      getUnscoredSum(cards.filter(c => !c.flipped))
     );
 
     const lowestUnoccupiedScoreIndex = players.reduce((lowestIndex, player) => {

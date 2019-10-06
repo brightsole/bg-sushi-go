@@ -1,7 +1,7 @@
 import test from 'ava';
-import appetizers from './index';
+import rolls from './index';
 
-const uramaki = appetizers.find(appetizer => appetizer.name === 'uramaki');
+const uramaki = rolls.find(roll => roll.name === 'uramaki');
 const makePlayer = playedCards => ({ boardState: { playedCards } });
 
 // unflipped during play, ready to be scored

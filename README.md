@@ -105,7 +105,6 @@
   2. Players unable to activate specials that have been previously played
   3. players with different AI unable to be passed in to the `setup` function
   4. Evaluating `play`
-      1. maki
       1. specials
 
   ### TESTS TO DO:
