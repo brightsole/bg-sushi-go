@@ -1,3 +1,5 @@
+const clone = require('fast-clone');
+
 module.exports.turnCount = playerCount => {
   if (playerCount < 4) return 10;
   if (playerCount < 6) return 9;
@@ -43,7 +45,7 @@ module.exports.GameState = class {
     // score the board, other players played cards are definitely needed
     // they're passed in as an array of arrays of cards
     players.forEach(player =>
-      player.scoreBoard(this.round, this.gameType, players)
+      player.scoreBoard(this.round, this.gameType, player, players.map(clone))
     );
 
     // return played cards _(save desserts)_ to the deck

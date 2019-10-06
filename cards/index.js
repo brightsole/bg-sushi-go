@@ -69,19 +69,17 @@ module.exports.generateCardSet = ({ type, gameCardType }) => {
 /**
  *
  * @param {Object} params - generic properties for scoring
- * @param {Object} params.playerId - this player's id, used for making generic properties
- * @param {Object} params.cardType - the base card type constructed at start of game
+ * @param {Object} params.player - the current player, not cloned
  * @param {Object} params.players - every player, for use in complicated value calcs
+ * @param {Object} params.cardType - the base card type constructed at start of game
  */
-module.exports.scoreCards = ({ cardType, players, playerId }) => {
+module.exports.scoreCards = ({ cardType, players, player }) => {
   // what follows are very useful constructed properties made from the generics passed in
-  const player = players.find(p => p.id === playerId);
-
   const cardsOfTypePlayed = player.boardState.playedCards.filter(
     c => c.name === cardType.name
   );
   const otherCardsOfType = players
-    .filter(p => p.id !== playerId)
+    .filter(p => p.id !== player.id)
     .map(p => p.boardState.playedCards.filter(c => c.name === cardType.name));
 
   return typeof cardType.value === 'function'

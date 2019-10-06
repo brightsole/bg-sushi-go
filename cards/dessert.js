@@ -10,7 +10,7 @@ const scoreGreenTea = ({ player }) => {
       ? 3 * greenTeaCards.length
       : 0;
   // set the score to zero to not double-count
-  greenTeaCards.forEach(dessert => dessert.setScore(0));
+  greenTeaCards.forEach(greenT => greenT.setScore(0));
   return totalScore;
 };
 const greenTeaIceCream = {

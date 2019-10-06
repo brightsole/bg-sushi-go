@@ -84,7 +84,7 @@ module.exports.Player = class {
     this.cardsToPass = [];
   };
 
-  scoreBoard = (round, gameType, players) => {
+  scoreBoard = (round, gameType, player, players) => {
     this.boardState.round = round;
 
     // TODO: fix round to be 1,2,3 instead of 2,3,4
@@ -95,8 +95,8 @@ module.exports.Player = class {
       dessertTypes.forEach(dessertType => {
         const cardsSum = scoreCards({
           cardType: dessertType,
-          playerId: this.id,
           players,
+          player,
         });
 
         this.boardState.score += cardsSum;
@@ -110,9 +110,9 @@ module.exports.Player = class {
 
         baseCardTypes.forEach(cardType => {
           const cardsSum = scoreCards({
-            playerId: this.id,
             cardType,
             players,
+            player,
           });
 
           this.boardState.score += cardsSum;
