@@ -3,34 +3,62 @@ const chopsticks = {
   color: 'light-cyan',
   valueDescription: 'announce: play 2 in hand, put chopsticks in hand',
 };
+
+const sumOfDifferentColours = cards =>
+  cards.reduce(
+    (colors, card) =>
+      colors.find(c => c === card.color) ? colors : colors.concat(card.color),
+    []
+  ).length;
 const soySauce = {
   name: 'soy sauce',
   color: 'yellow-orange',
   valueDescription: '4score if you have most different colored cards',
+  value: ({ cardsOfTypePlayed, player, players }) => {
+    const colorsPlayed = sumOfDifferentColours(player.boardState.playedCards);
+
+    const otherPlayerColorSums = players.map(p =>
+      sumOfDifferentColours(p.boardState.playedCards)
+    );
+    const playedMax = otherPlayerColorSums.reduce(
+      (max, sum) => (max > sum ? max : sum),
+      0
+    );
+
+    const soyScore = colorsPlayed >= playedMax ? 4 : 0;
+
+    cardsOfTypePlayed.forEach(soyCard => soyCard.setScore(0));
+    return soyScore * cardsOfTypePlayed.length;
+  },
 };
+
 const takeoutBox = {
   name: 'takeout box',
   color: 'light-brown',
   valueDescription: 'transform any previous into 2score',
 };
+
 const spoon = {
   name: 'spoon',
   minPlayers: 3,
   color: 'dark-grey',
   valueDescription: 'announce: trade for card with leftmost owner',
 };
+
 const specialOrder = {
   maxPlayers: 6,
   color: 'rainbow',
   name: 'special order',
   valueDescription: 'copy 1 previous',
 };
+
 const menu = {
   name: 'menu',
   maxPlayers: 6,
   color: 'light-yellow',
   valueDescription: 'draw 4, play one, shuffle',
 };
+
 const tea = {
   name: 'tea',
   color: 'dark-red',
@@ -53,6 +81,7 @@ const tea = {
     return maxCount * teaCount;
   },
 };
+
 const wasabi = {
   name: 'wasabi',
   color: 'yellow',
