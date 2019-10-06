@@ -1,4 +1,4 @@
-const clone = require('rfdc');
+const clone = require('rfdc')({ proto: false, circles: true });
 
 module.exports.turnCount = playerCount => {
   if (playerCount < 4) return 10;
@@ -40,16 +40,19 @@ module.exports.GameState = class {
 
     const { round, players, cards } = this;
     const { deck, dessertCards } = cards;
-    const playerCount = this.players.length;
+
+    const clonedPlayers = players.map(clone);
+    const playerCount = clonedPlayers.length;
 
     // score the board, other players played cards are definitely needed
     // they're passed in as an array of arrays of cards
-    players.forEach(player =>
-      player.scoreBoard(this.round, this.gameType, player, players.map(clone))
+    this.players.forEach(player =>
+      player.scoreBoard(this.round, this.gameType, player, clonedPlayers)
     );
 
     // return played cards _(save desserts)_ to the deck
-    players.forEach(player => player.resetRound(this.cards.deck));
+    this.players.forEach(player => player.resetRound(this.cards.deck));
+
     this.cards.dessertCards = deck.topUpDesserts({
       round,
       playerCount,

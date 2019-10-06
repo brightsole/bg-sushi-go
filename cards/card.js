@@ -19,7 +19,7 @@ const nanoid = require('nanoid');
  */
 module.exports.Card = class {
   constructor({
-    play = card => card,
+    play = () => {},
     id = nanoid(),
     cardName,
     shapes,

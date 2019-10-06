@@ -61,15 +61,20 @@ module.exports.Player = class {
     this.cardsToPass = cardsToPass;
   };
 
-  playCard = otherCardsBeingPlayed => {
-    const playedState = this.boardState.playedCards;
+  playCard = allPlayedCards => {
+    const { playedCards } = this.boardState;
+
     this.history += this.loggingEnabled
       ? playCard({ id: this.id, card: this.cardToPlay })
       : '';
 
-    this.boardState.playedCards = playedState.concat(
-      this.cardToPlay.play(this.cardToPlay, otherCardsBeingPlayed)
-    );
+    this.cardToPlay.play({
+      boardState: this.boardState,
+      card: this.cardToPlay,
+      allPlayedCards,
+    });
+
+    this.boardState.playedCards = playedCards.concat(this.cardToPlay);
 
     this.setHand([]);
     this.cardToPlay = undefined;

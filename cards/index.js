@@ -28,7 +28,7 @@ module.exports.getSetupByPlayerCount = playerCount => ({
   dessert: { count: 15, options: desserts.filter(byPlayerCount(playerCount)) },
 });
 
-// ouput all the cards in whatever cardset you pick
+// output all the cards in whatever cardset you pick
 module.exports.generateCardSet = ({ type, gameCardType }) => {
   const { name, count, value, color, types, play } = gameCardType;
 
