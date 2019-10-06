@@ -29,7 +29,6 @@
   |  | preparePlay() | Assigns cardToPlay and cardsToPass based on ai sorting algo |
   |  | playCard(evaluatePlay) | Plays the best card, and evaluates if it was effected by any other player's played card |
   |  | passCards() | Passes all other non-played cards |
-  |  | getCardsByName(name) | Gets all cards of the specified name in the desserts/playedCards for this player |
   |  | scoreBoard(round, gameType, allBoardStates) | Scores all played cards for x round |
   |  | resetRound() | Clear played cards, and store played desserts at end of round |
 
@@ -105,36 +104,34 @@
   1. Scoring algorithm is **fully random.** not ideal
   2. Players unable to activate specials that have been previously played
   3. players with different AI unable to be passed in to the `setup` function
-  4. Evaluating score is not done
-      1. include `special` scoring
-  5. Evaluating `play`
+  4. Evaluating `play`
       1. keep props passing shape upgrades from `value`
-      2. specials
+      1. maki
+      1. specials
+      1. nigiri _(wasabi interaction)_
 
   ### TESTS TO DO:
   1. appetizers
-      1. misoSoup
-      1. dumpling
-      1. tofu
-      1. sashimi
       1. eel
+      1. tofu
       1. tempura
+      1. sashimi
+      1. dumpling
+      1. misoSoup
 
   2. dessert
       1. setup
-      1. greenTeaIceCream
-      1. pudding
       1. fruit
+      1. pudding
+      1. greenTeaIceCream
 
   4. special
-      1. specialOrder
+      1. menu
+      1. spoon
+      1. wasabi
       1. chopsticks
       1. takeoutBox
-      1. soySauce
-      1. wasabi
-      1. spoon
-      1. menu
-      1. tea
+      1. specialOrder
 
 </details>
 <br/>

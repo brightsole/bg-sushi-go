@@ -1,7 +1,7 @@
 import test from 'ava';
 import specials from './index';
 
-const tea = specials.find(appetizer => appetizer.name === 'tea');
+const tea = specials.find(special => special.name === 'tea');
 
 const tMock = { name: 'tea', setScore: () => {}, color: 'dark-red' };
 
