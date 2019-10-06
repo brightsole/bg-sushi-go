@@ -108,7 +108,6 @@
       1. keep props passing shape upgrades from `value`
       1. maki
       1. specials
-      1. nigiri _(wasabi interaction)_
 
   ### TESTS TO DO:
   1. appetizers
