@@ -1,4 +1,4 @@
-const clone = require('fast-clone');
+const clone = require('rfdc');
 
 module.exports.turnCount = playerCount => {
   if (playerCount < 4) return 10;
