@@ -22,14 +22,14 @@
   |  | playAGame() | Three rounds played, winner declared |
   | Card | flip() | Flip card over, used in some actions |
   |  | reset() | Reset all user-input card values to default |
-  |  | play(allCardsPlayed) | Evaluate execution of playing a card, returns that card |
+  |  | play(allCardsPlayed) | Evaluate execution of playing a card |
   |  | setScore() | Set the card's score to be a value, usually a number |
   | Player | setHand(cards) | Set the players hand to equal those cards |
   |  | setNeighbors(lID, rID) | Set L & R neighbor ids |
   |  | preparePlay() | Assigns cardToPlay and cardsToPass based on ai sorting algo |
-  |  | playCard(evaluatePlay) | Plays the best card, and evaluates if it was effected by any other player's played card |
+  |  | playCard(allPlayedCards, expectedPlayedCards) | Plays the best card, and evaluates if it was effected by any other player's played card |
   |  | passCards() | Passes all other non-played cards |
-  |  | scoreBoard(round, gameType, allBoardStates) | Scores all played cards for x round |
+  |  | scoreBoard(round, gameType, player, players) | Scores all played cards for x round |
   |  | resetRound() | Clear played cards, and store played desserts at end of round |
 
   These classes have the following state shape:
@@ -101,10 +101,8 @@
 <br />
 
   #### MUST HAVE:
-  1. Scoring algorithm is **fully random.** not ideal
-  2. Players unable to activate specials that have been previously played
-  3. players with different AI unable to be passed in to the `setup` function
-  4. Evaluating `play`
+  1. Players unable to activate specials that have been previously played
+  1. Evaluating `play`
       1. specials
 
   ### TESTS TO DO:
@@ -129,6 +127,10 @@
       1. chopsticks
       1. takeoutBox
       1. specialOrder
+
+  #### NICE TO HAVE:
+  1. history is now criminally underutilised, should it be removed? Would use as decorators be easier to use?
+
 
 </details>
 <br/>

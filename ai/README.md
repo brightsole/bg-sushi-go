@@ -11,7 +11,7 @@ There are a series of words attached to each AI that will help anyone interested
 | smpl | Simple | An algorithm unaware of combinations that could affect maximum/avg possible score | smrt |
 | smrt | Smart | An algorithm that understands possible combinations that might affect possible score outcomes | smpl |
 | blnd | Blind | An algorithm that has no concept of probabilities of outcomes, and only looks at possible scores | eagl |
-| eagl | Eagle-eyed | Any algorithm that uses some metric to assess probabilities of possible score outcomes | blind |
+| eagl | Eagle-eyed | Any algorithm that uses some metric to assess probabilities of possible score outcomes | blnd |
 | oblv | Oblivious | An algorithm with no internal memory of previous turns/plays | hist |
 | hist | Historian | An algorithm that remembers and uses all previous hands to asses plays | oblv |
 | hope | Hopeful | An algorithm that only considers it's own maximum score possible | nega |
@@ -23,7 +23,7 @@ There will be more later, and eventually, a series of neural networks will be tr
 An interesting logical progression is outlined below as an ennumerated list of AI to build:
 
 ### AI TODO:
-- [ ] smpl_blnd_oblv_hope.js
+- [x] smpl_blnd_oblv_hope.js
 - [ ] smpl_eagl_oblv_hope.js
 - [ ] smpl_eagl_hist_hope.js
 - [ ] smpl_eagl_hist_nega.js
