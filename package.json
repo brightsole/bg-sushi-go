@@ -34,7 +34,6 @@
     "ava": "^2.4.0",
     "husky": "^0.14.2",
     "lint-staged": "^9.4.1",
-    "lodash": "^4.17.15",
     "nyc": "^14.1.1"
   },
   "dependencies": {
