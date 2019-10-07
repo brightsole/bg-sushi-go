@@ -1,5 +1,14 @@
 const selectRandom = max => Math.floor(Math.random() * (max + 1));
 
+module.exports.stdDev = (allPlayerScores, allPlayerAverage) => {
+  const squaredDiffs = allPlayerScores.flatMap(scores =>
+    scores.map(score => (score - allPlayerAverage) ** 2)
+  );
+  const avgSquaredDiffs =
+    squaredDiffs.reduce((sum, sDiff) => sum + sDiff, 0) / squaredDiffs.length;
+  return Math.sqrt(avgSquaredDiffs);
+};
+
 module.exports.selectUniqueRandoms = (
   maxIndex,
   numberToSelect,
