@@ -12,7 +12,7 @@ module.exports.Player = class {
     neighbors = [],
     playedCards = [],
     loggingEnabled = false,
-    scoringAlgorithm = someHand =>
+    scoringAlgorithm = ({ hand: someHand }) =>
       someHand.sort(() => (Math.random() > 0.5 ? 1 : -1)),
   } = {}) {
     this.id = id;
@@ -54,7 +54,7 @@ module.exports.Player = class {
   };
 
   preparePlay = boardStates => {
-    const sortedHand = this.scoringAlgorithm(this.hand, boardStates);
+    const sortedHand = this.scoringAlgorithm({ hand: this.hand, boardStates });
     const [bestCard, ...cardsToPass] = sortedHand;
 
     this.cardToPlay = bestCard;

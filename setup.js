@@ -2,8 +2,22 @@ const { Player } = require('./player');
 const { GameState, turnCount } = require('./game_state');
 const { prepareDeck, Deck } = require('./deck');
 
-module.exports.setup = ({ playerCount = 2, cardTypeNames } = {}) => {
-  const players = Array.from(Array(playerCount)).map(() => new Player());
+module.exports.setup = ({
+  cardTypeNames,
+  playerCount = 2,
+  inputPlayers = [],
+} = {}) => {
+  /**
+   * ai algorithms may be passed in as player constructors,
+   * the rest will be filled with random ai players
+   */
+  const players = inputPlayers
+    .map(({ scoringAlgorithm, id }) => new Player({ scoringAlgorithm, id }))
+    .concat(
+      Array.from(Array(playerCount - inputPlayers.length)).map(
+        () => new Player()
+      )
+    );
   const { deck: fullDeck, dessertCards, gameType } = prepareDeck({
     playerCount,
     cardTypeNames,
