@@ -23,18 +23,21 @@ There will be more later, and eventually, a series of neural networks will be tr
 An interesting logical progression is outlined below as an ennumerated list of AI to build:
 
 ### AI TODO:
-1. smpl_blnd_oblv_hope.js
-1. smpl_eagl_oblv_hope.js
-1. smpl_eagl_hist_hope.js
-1. smpl_eagl_hist_nega.js
-1. smpl_eagl_hist_tact.js
-1. smrt_eagl_hist_tact.js
+- [ ] smpl_blnd_oblv_hope.js
+- [ ] smpl_eagl_oblv_hope.js
+- [ ] smpl_eagl_hist_hope.js
+- [ ] smpl_eagl_hist_nega.js
+- [ ] smpl_eagl_hist_tact.js
+- [ ] smrt_eagl_hist_tact.js
 
 ### ALSO TODO:
-1. research plotting libs
-1. create a simple HTML results plotting page
-1. compare xrandom x 1simple ai
-1. compare score vs player count
-1. compare xsimple vs xsimple ai
-1. compare xsimple vs xbetter ai
-1. compare all ai effectiveness as a unitless measure vs playerCount
+- [ ] research plotting libs
+- [ ] create a simple HTML results plotting page
+- [ ] deploy it on pushes
+- [ ] link to this in the main readme
+- [ ] split out the ai to a separate readme?
+- [ ] compare xrandom x 1simple ai
+- [ ] compare score vs player count
+- [ ] compare xsimple vs xsimple ai
+- [ ] compare xsimple vs xbetter ai
+- [ ] compare all ai effectiveness as a unitless measure vs playerCount
