@@ -1,59 +1,77 @@
+const { Signale } = require('signale');
+const { stdDev } = require('./utils');
 const { setup } = require('./setup');
+const { worst } = require('./ai');
 
-// // for a consistent setup, the following is nice
-// const validEight = [
-//   'soy sauce',
-//   'miso soup',
-//   'dumpling',
-//   'sashimi',
-//   'nigiri',
-//   'spoon',
-//   'fruit',
-//   'maki',
-// ];
-// const board = setup({ playerCount: 8, cardTypeNames: validEight });
+/**
+ * This is one of many valid formats supported thus far. I picked it for the
+ * following reasons to start getting valid feedback on the efficacy of the ai
+ * that are currently being designed.
+ *
+ * nigiri: only one option, and it's great
+ * specials: limited
+ *    * wasabi accounted for in nigiri scoring, but not chosen
+ *    * only tea and soy sauce are simple value sum calcs like others
+ * rolls: any will do, but temaki is arguably the simplest
+ * appetizers: any will do, _(tested given priority)_
+ */
+const simplestFullyScoringGame = [
+  'soy sauce',
+  'pudding',
+  'edamame',
+  'sashimi',
+  'onigiri',
+  'nigiri',
+  'temaki',
+  'tea',
+];
 
-const playerCount = Math.round(Math.random() * 6) + 2;
-const exampleGame = setup({ playerCount });
+const progressLog = new Signale({ interactive: true, scope: 'progress' });
 
-console.log('players: ', playerCount);
-console.time('game');
-exampleGame.playAGame();
-console.timeEnd('game');
+const PLAYER_COUNT = 6;
+const GAMES_PLAYED = 200;
 
-const { winner, players } = exampleGame;
-console.log('winner: ', winner, 'wins with: ', winner.boardState.score);
-console.log(
-  'average player score: ',
-  players.reduce((sum, player) => sum + player.boardState.score, 0) /
-    playerCount
+const allGamesFinalScores = Array.from(Array(GAMES_PLAYED)).reduce(
+  (sums, _, i) => {
+    if (!((i + 1) % (GAMES_PLAYED / 100)))
+      progressLog.info(`${Math.round((100 * (i + 1)) / GAMES_PLAYED)}%`);
+
+    const board = setup({
+      playerCount: PLAYER_COUNT,
+      cardTypeNames: simplestFullyScoringGame,
+      inputPlayers: [{ scoringAlgorithm: worst, id: 'worst' }],
+    });
+
+    board.playAGame();
+
+    return [
+      ...sums,
+      board.players
+        .map(p => p.boardState.score)
+        .sort((a, b) => (a > b ? -1 : 1)),
+    ];
+  },
+  []
 );
 
-// // grab some stats from many random games!
-// // const { Signale } = require('signale');
+const winnerAvg =
+  allGamesFinalScores.reduce((sum, playerScores) => sum + playerScores[0], 0) /
+  GAMES_PLAYED;
 
-// const progressLog = new Signale({ interactive: true, scope: 'progress' });
-// const TIMES = 2000;
+const allPlayerAverage =
+  allGamesFinalScores.reduce(
+    (sum, playerScores) =>
+      sum + playerScores.reduce((total, score) => total + score, 0),
+    0
+  ) /
+  (GAMES_PLAYED * PLAYER_COUNT);
 
-// const [winnerSum, allPlayersSum, playerSum] = Array.from(Array(TIMES)).reduce(
-//   (sums, _, i) => {
-//     if (!(i % (TIMES / 100)))
-//       progressLog.info(`${Math.round((100 * i) / TIMES)}%`);
-//     const board = setup({ playerCount });
-//     board.playAGame();
-//     return [
-//       sums[0] + board.winner.boardState.score,
-//       sums[1] + board.players.reduce((all, p) => all + p.boardState.score, 0),
-//       sums[2] + board.players.length,
-//     ];
-//   },
-//   [0, 0, 0]
-// );
-// console.log(
-//   'winnerAvg: ',
-//   winnerSum / TIMES,
-//   '\nallPlayersAvg: ',
-//   allPlayersSum / (TIMES * playerSum),
-//   allPlayersSum,
-//   playerSum
-// );
+// log results!
+console.log(
+  'winnerAvg: ',
+  winnerAvg,
+  '\nallPlayersAvg: ',
+  allPlayerAverage,
+  '\nscore standard dev: ',
+  stdDev(allGamesFinalScores, allPlayerAverage)
+);
