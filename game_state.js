@@ -52,7 +52,7 @@ module.exports.GameState = class {
     // score the board, other players played cards are definitely needed
     // they're passed in as an array of arrays of cards
     this.players.forEach(player =>
-      player.scoreBoard(this.round, this.gameType, player, clonedPlayers)
+      player.scoreBoard(this.round, this.gameType, clonedPlayers)
     );
 
     // return played cards _(save desserts)_ to the deck

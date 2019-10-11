@@ -29,7 +29,8 @@
   |  | preparePlay() | Assigns cardToPlay and cardsToPass based on ai sorting algo |
   |  | playCard(allPlayedCards, expectedPlayedCards) | Plays the best card, and evaluates if it was effected by any other player's played card |
   |  | passCards() | Passes all other non-played cards |
-  |  | scoreBoard(round, gameType, player, players) | Scores all played cards for x round |
+  |  | scoreCard({ cardType, players }) | Sums and assigns scores for all cards of x type played by this user |
+  |  | scoreBoard(round, gameType, players) | Scores all played cards for x round |
   |  | resetRound() | Clear played cards, and store played desserts at end of round |
 
   These classes have the following state shape:
@@ -56,7 +57,6 @@
   |  | hand | Array of cards in the player's hand |
   |  | cardToPlay | Card ready to play |
   |  | loggingEnabled | Append events to a fixed-width log buffer |
-  |  | history | Fixed width logging text blob, good for debugging |
   |  | cardsToPass | Cards ready to be passed to the neighbor |
   |  | scoringAlgorithm | Return hand sorted from best to worst; given hand & boardstates |
   |  | boardState | Properties between the player and other board states |
@@ -79,9 +79,7 @@
   </summary>
   <br />
 
-  `node index.js` will output a winner, and their score.
-
-  `watch -n 0.1 node index.js` is also pretty cool _(assuming you've done `brew install watch`, or `apt-get install watch`)_, as you can watch it run random games 10x a second.
+  `node index.js` will play 200 games and output some stats on them!
 
   right now, it's just a jumping off point, much more work must be done.
 

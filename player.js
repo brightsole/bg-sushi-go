@@ -1,5 +1,4 @@
 const nanoid = require('nanoid');
-const { scoreCards } = require('./cards');
 const { playCard } = require('./history');
 
 module.exports.Player = class {
@@ -90,7 +89,38 @@ module.exports.Player = class {
     this.cardsToPass = [];
   };
 
-  scoreBoard = (round, gameType, player, players) => {
+  /**
+   * if cardType has value as a function, sum those cards using that function
+   * otherwise sum the cards using a simple reduce addition
+   *
+   * @param {Object} params - generic properties for scoring
+   * @param {Object} params.players - every player, for use in complicated value calcs
+   * @param {Object} params.cardType - the base card type constructed at start of game
+   */
+  scoreCards = ({ cardType, players }) => {
+    // what follows are very useful constructed properties made from the generics passed in
+    const cardsOfTypePlayed = this.boardState.playedCards.filter(
+      c => c.name === cardType.name
+    );
+    const otherCardsOfType = players
+      .filter(p => p.id !== this.id)
+      .map(p => p.boardState.playedCards.filter(c => c.name === cardType.name));
+
+    return typeof cardType.value === 'function'
+      ? cardType.value({
+          players,
+          player: this,
+          otherCardsOfType,
+          cardsOfTypePlayed,
+        })
+      : cardsOfTypePlayed.reduce((total, card) => {
+          if (typeof card.value === 'number') return total + card.value;
+
+          return total;
+        }, 0);
+  };
+
+  scoreBoard = (round, gameType, players) => {
     this.boardState.round = round;
 
     // TODO: fix round to be 1,2,3 instead of 2,3,4
@@ -99,10 +129,9 @@ module.exports.Player = class {
       const dessertTypes = gameType.dessert;
 
       dessertTypes.forEach(dessertType => {
-        const cardsSum = scoreCards({
+        const cardsSum = this.scoreCards({
           cardType: dessertType,
           players,
-          player,
         });
 
         this.boardState.score += cardsSum;
@@ -115,10 +144,9 @@ module.exports.Player = class {
         const baseCardTypes = gameType[cardTypeName];
 
         baseCardTypes.forEach(cardType => {
-          const cardsSum = scoreCards({
+          const cardsSum = this.scoreCards({
             cardType,
             players,
-            player,
           });
 
           this.boardState.score += cardsSum;

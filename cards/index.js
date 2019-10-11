@@ -63,35 +63,3 @@ module.exports.generateCardSet = ({ type, gameCardType }) => {
       })
   );
 };
-
-// if cardType has value as a function, sum those cards using that function
-// otherwise sum the cards using a simple reduce addition
-/**
- *
- * @param {Object} params - generic properties for scoring
- * @param {Object} params.player - the current player, not cloned
- * @param {Object} params.players - every player, for use in complicated value calcs
- * @param {Object} params.cardType - the base card type constructed at start of game
- */
-module.exports.scoreCards = ({ cardType, players, player }) => {
-  // what follows are very useful constructed properties made from the generics passed in
-  const cardsOfTypePlayed = player.boardState.playedCards.filter(
-    c => c.name === cardType.name
-  );
-  const otherCardsOfType = players
-    .filter(p => p.id !== player.id)
-    .map(p => p.boardState.playedCards.filter(c => c.name === cardType.name));
-
-  return typeof cardType.value === 'function'
-    ? cardType.value({
-        player,
-        players,
-        otherCardsOfType,
-        cardsOfTypePlayed,
-      })
-    : cardsOfTypePlayed.reduce((total, card) => {
-        if (typeof card.value === 'number') return total + card.value;
-
-        return total;
-      }, 0);
-};
