@@ -22,6 +22,7 @@
   |  | playAllTurns() | All players play and pass cards until hands empty |
   |  | playARound() | All rounds played, scores assigned, hands reset, round incremented, turn reset |
   |  | playAGame() | Three rounds played, winner declared |
+  |  | getPlayerScores() | Returns all player scores, sorted from best to worst |
   | Card |  | Cards contain tons of useful information & methods, and can be modified when played/scored |
   |  | flip() | Flip card over, used in some actions |
   |  | reset() | Reset all user-input card values to default |

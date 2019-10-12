@@ -3,7 +3,6 @@
  *
  * I want history to be a fixed-width blob of text that's readable
  * This is the setup to make that happen in a reasonable(ish) way.
- * ... I hope.
  */
 
 /* eslint-disable prettier/prettier */

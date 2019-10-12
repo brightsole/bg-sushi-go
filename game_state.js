@@ -85,4 +85,10 @@ module.exports.GameState = class {
     this.playARound();
     this.playARound();
   };
+
+  getPlayerScores = () => {
+    return this.players
+      .map(player => player.boardState.score)
+      .sort((a, b) => (a > b ? -1 : 1));
+  };
 };

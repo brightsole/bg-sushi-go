@@ -36,7 +36,7 @@ const allGamesFinalScores = Array.from(Array(GAMES_PLAYED)).reduce(
     if (!((i + 1) % (GAMES_PLAYED / 100)))
       progressLog.info(`${Math.round((100 * (i + 1)) / GAMES_PLAYED)}%`);
 
-    const [board, history] = setup({
+    const [board] = setup({
       log: { player: true },
       playerCount: PLAYER_COUNT,
       cardTypeNames: simplestFullyScoringGame,
@@ -44,14 +44,9 @@ const allGamesFinalScores = Array.from(Array(GAMES_PLAYED)).reduce(
     });
 
     board.playAGame();
-    if (i === 100) console.log(history.getPlayerHistory(board.winner.id));
+    // if (i === 100) console.log(history.getPlayerHistory(board.winner.id));
 
-    return [
-      ...sums,
-      board.players
-        .map(p => p.boardState.score)
-        .sort((a, b) => (a > b ? -1 : 1)),
-    ];
+    return [...sums, board.getPlayerScores()];
   },
   []
 );
