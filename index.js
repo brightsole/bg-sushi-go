@@ -36,13 +36,15 @@ const allGamesFinalScores = Array.from(Array(GAMES_PLAYED)).reduce(
     if (!((i + 1) % (GAMES_PLAYED / 100)))
       progressLog.info(`${Math.round((100 * (i + 1)) / GAMES_PLAYED)}%`);
 
-    const board = setup({
+    const [board, history] = setup({
+      log: { player: true },
       playerCount: PLAYER_COUNT,
       cardTypeNames: simplestFullyScoringGame,
       inputPlayers: [{ scoringAlgorithm: worst, id: 'worst' }],
     });
 
     board.playAGame();
+    if (i === 100) console.log(history.getPlayerHistory(board.winner.id));
 
     return [
       ...sums,

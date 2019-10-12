@@ -14,7 +14,6 @@ const GAME_STATE  =       'GameSt'; // eslint-disable-line no-unused-vars
 // ACTIONS
 const PLAYED      =       'PLAYED';
 const SUMMED      =       'SUMMED';
-const SCORED      =       'SCORED';
 
 // OTHER
 const SPACER      =       '      ';
@@ -22,26 +21,49 @@ const SPACER      =       '      ';
 
 const strip = string => string.slice(0, 8).padEnd(8, ' ');
 
-module.exports.playCard = ({ id, card }) =>
-  `${PLAYER}-${id}  ${PLAYED}  ${strip(card.name)}-${card.id}\n`;
+class History {
+  constructor({ player, game } = {}) {
+    this.logGameState = game;
+    this.logPlayer = player;
+    this.log = '';
+  }
 
-module.exports.score = ({ id, card }) =>
-  `${PLAYER}-${id}  ${SCORED}  ${strip(card.name)}-${card.id}  FOR  ${
-    card.value
-  }\n`;
+  /* *Player method* */
+  playCard = ({ playerId, card }) => {
+    if (!this.logPlayer) return;
+    this.log += `${PLAYER}-${playerId}  ${PLAYED}  ${strip(card.name)}-${
+      card.id
+    }\n`;
+  };
 
-module.exports.sum = ({ id, cardType, sum, cards }) => {
-  const title = `${PLAYER}-${id}  ${SUMMED}  ${strip(
-    cardType.name
-  )}  FOR  ${sum}\n`;
-  const scoreLines = cards
-    .map(
-      card =>
-        `${SPACER}  ${SPACER}  ${card.id}-${strip(card.name)}  FOR  ${
-          card.value
-        }\n`
-    )
-    .join('');
+  /* *Player method* */
+  scoreCards = ({ playerId, cardType, sum, cards }) => {
+    if (!this.logPlayer) return;
 
-  return `${title}${scoreLines}`;
-};
+    const title = `${PLAYER}-${playerId}  ${SUMMED}  ${strip(
+      cardType.name
+    )}  FOR  ${sum}\n`;
+    const scoreLines = cards
+      .map(
+        card =>
+          `${SPACER}  ${SPACER}  ${card.id}-${strip(card.name)}  FOR  ${
+            card.value
+          }\n`
+      )
+      .join('');
+
+    this.log += `${title}${scoreLines}`;
+  };
+
+  /**
+   * return a filtered log by the playerID given
+   */
+  getPlayerHistory = playerId => {
+    return this.log
+      .split('\n')
+      .filter(logLine => logLine.match(new RegExp(`${PLAYER}.*${playerId}`)))
+      .join('\n');
+  };
+}
+
+module.exports.History = History;

@@ -1,26 +1,31 @@
 const { Player } = require('./player');
+const { History } = require('./history');
 const { GameState, turnCount } = require('./game_state');
 const { prepareDeck, Deck } = require('./deck');
 
 module.exports.setup = ({
-  cardTypeNames,
-  playerCount = 2,
   inputPlayers = [],
+  playerCount = 2,
+  cardTypeNames,
+  log,
 } = {}) => {
+  const history = new History(log);
   /**
    * ai algorithms may be passed in as player constructors,
    * the rest will be filled with random ai players
    */
-  const players = inputPlayers
-    .map(({ scoringAlgorithm, id }) => new Player({ scoringAlgorithm, id }))
-    .concat(
-      Array.from(Array(playerCount - inputPlayers.length)).map(
-        () => new Player()
-      )
-    );
+  const aiPlayers = inputPlayers.map(
+    ({ scoringAlgorithm, id }) => new Player({ history, scoringAlgorithm, id })
+  );
+  const randomPlayers = Array.from(Array(playerCount - aiPlayers.length)).map(
+    () => new Player({ history })
+  );
+
+  const players = aiPlayers.concat(randomPlayers);
+
   const { deck: fullDeck, dessertCards, gameType } = prepareDeck({
-    playerCount,
     cardTypeNames,
+    playerCount,
   });
 
   const deck = new Deck(fullDeck);
@@ -38,5 +43,8 @@ module.exports.setup = ({
     player.setNeighbors(left, right);
   });
 
-  return new GameState({ deck, dessertCards, players, gameType });
+  return [
+    new GameState({ deck, dessertCards, players, gameType, history }),
+    history,
+  ];
 };

@@ -1,8 +1,8 @@
 const nanoid = require('nanoid');
-const { playCard } = require('./history');
 
 module.exports.Player = class {
   constructor({
+    history,
     hand = [],
     round = 1,
     score = 0,
@@ -17,18 +17,18 @@ module.exports.Player = class {
     this.id = id;
     this.hand = hand;
     this.cardsToPass = [];
+    this.history = history;
     this.cardToPlay = undefined;
     this.loggingEnabled = loggingEnabled;
     this.scoringAlgorithm = scoringAlgorithm;
-    this.history = '';
     // TODO: refactor config options to cleaner nested structure?
 
     this.boardState = {
-      score,
-      round,
-      desserts,
-      neighbors,
       playedCards,
+      neighbors,
+      desserts,
+      round,
+      score,
     };
   }
 
@@ -63,10 +63,7 @@ module.exports.Player = class {
   playCard = (allPlayedCards, expectedPlayedCards) => {
     const { playedCards } = this.boardState;
 
-    this.history += this.loggingEnabled
-      ? playCard({ id: this.id, card: this.cardToPlay })
-      : '';
-
+    this.history.playCard({ playerId: this.id, card: this.cardToPlay });
     this.cardToPlay.play({
       boardState: this.boardState,
       card: this.cardToPlay,
@@ -106,18 +103,27 @@ module.exports.Player = class {
       .filter(p => p.id !== this.id)
       .map(p => p.boardState.playedCards.filter(c => c.name === cardType.name));
 
-    return typeof cardType.value === 'function'
-      ? cardType.value({
-          players,
-          player: this,
-          otherCardsOfType,
-          cardsOfTypePlayed,
-        })
-      : cardsOfTypePlayed.reduce((total, card) => {
-          if (typeof card.value === 'number') return total + card.value;
+    const sum =
+      typeof cardType.value === 'function'
+        ? cardType.value({
+            players,
+            player: this,
+            otherCardsOfType,
+            cardsOfTypePlayed,
+          })
+        : cardsOfTypePlayed.reduce((total, card) => {
+            if (typeof card.value === 'number') return total + card.value;
 
-          return total;
-        }, 0);
+            return total;
+          }, 0);
+
+    this.history.scoreCards({
+      cards: cardsOfTypePlayed,
+      playerId: this.id,
+      cardType,
+      sum,
+    });
+    return sum;
   };
 
   scoreBoard = (round, gameType, players) => {
