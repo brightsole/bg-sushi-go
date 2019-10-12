@@ -13,18 +13,22 @@
 
   | Model | method | Description |
   | :---------------: | :--------------- | :--------------- |
-  | Deck | draw(drawNumber) | Draws x number of cards from the deck |
+  | Deck |  | A place where cards go to be drawn and shufffled about |
+  |  | draw(drawNumber) | Draws x number of cards from the deck |
   |  | returnCards(cards) | Returns given cards to the deck |
   |  | topUpDesserts(Params) => remainingDesserts | Add proper amount of dessert cards to the deck |
-  | GameState | playATurn() | All players play and pass cards, turn incremented |
+  | GameState |  | A place where things like rounds, turns, and actions like scoring are initiated |
+  |  | playATurn() | All players play and pass cards, turn incremented |
   |  | playAllTurns() | All players play and pass cards until hands empty |
   |  | playARound() | All rounds played, scores assigned, hands reset, round incremented, turn reset |
   |  | playAGame() | Three rounds played, winner declared |
-  | Card | flip() | Flip card over, used in some actions |
+  | Card |  | Cards contain tons of useful information & methods, and can be modified when played/scored |
+  |  | flip() | Flip card over, used in some actions |
   |  | reset() | Reset all user-input card values to default |
   |  | play(allCardsPlayed) | Evaluate execution of playing a card |
   |  | setScore() | Set the card's score to be a value, usually a number |
-  | Player | setHand(cards) | Set the players hand to equal those cards |
+  | Player |  | An instance of an ai that stores cards, and methods for interacting with the board and other players |
+  |  | setHand(cards) | Set the players hand to equal those cards |
   |  | setNeighbors(lID, rID) | Set L & R neighbor ids |
   |  | preparePlay() | Assigns cardToPlay and cardsToPass based on ai sorting algo |
   |  | playCard(allPlayedCards, expectedPlayedCards) | Plays the best card, and evaluates if it was effected by any other player's played card |
@@ -32,6 +36,9 @@
   |  | scoreCard({ cardType, players }) | Sums and assigns scores for all cards of x type played by this user |
   |  | scoreBoard(round, gameType, players) | Scores all played cards for x round |
   |  | resetRound() | Clear played cards, and store played desserts at end of round |
+  | History |  | A storage container for a fixed-width history text blob |
+  |  | *(Player) | duplicates the names of the player methods, and adds their results to the log |
+  |  | getPlayerHistory(playerId) | strips all lines but those realated to the player id |
 
   These classes have the following state shape:
 
@@ -65,9 +72,11 @@
   |  | boardState.desserts | The desserts played by the player previously |
   |  | boardState.neighbors | [L, R] neighbor ids for passing cards |
   |  | boardState.playedCards | Cards played during this round |
+  | History | log | The raw string blob that actions are being appended to |
 
 
-  `index.js` calls the `setup` function, that instantiates a GameState with players, cards, and things like turn/round stored within. From there, playing is easy!
+  ##### SETUP.js
+  Finally we have `setup.js`. It now returns a tuple of `gameState` and `history`. Even if logging is off, the history class is returned, but no interactions will happen to/in it.
 
 </details>
 <br/>
@@ -127,7 +136,7 @@
       1. specialOrder
 
   #### NICE TO HAVE:
-  1. history is now criminally underutilised, should it be removed? Would use as decorators be easier to use?
+  1. `History` is now in a really good place. The only refactor that would be nice would be transforming it into a series of decorators once node has support for them finalized. No idea when that'll happen. I really considered TS to get it, but I do enjoy this project involving no pre-run compilation.
 
 
 </details>
