@@ -27,8 +27,6 @@ const temaki = {
     // it's possible to have the fewest & most if all players have the same amount
     const totalScore = shouldGainMin + shouldGainMax;
 
-    // set the score to zero to not double-count
-    temakiCards.forEach(tCard => tCard.setScore(0));
     return totalScore;
   },
 };
@@ -113,9 +111,6 @@ const uramaki = {
       lowestUnoccupiedScoreIndex + unflippedIndex
     );
 
-    // likely some cards were already assigned scores & flipped
-    // only necessary to setScore on the remainder
-    ourUnscoredUramaki.forEach(uCard => uCard.setScore(0));
     return finalScore;
   },
   types: [
@@ -147,7 +142,6 @@ const maki = {
     const playerCount = otherCardsOfType.length + 1;
     const scores = playerCount >= 6 ? [6, 4, 2] : [6, 3];
 
-    makiCards.forEach(makiCard => makiCard.setScore(0));
     return scores[ourPosition] || 0;
   },
   types: [

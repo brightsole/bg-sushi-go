@@ -27,7 +27,6 @@ const soySauce = {
 
     const soyScore = colorsPlayed >= playedMax ? 4 : 0;
 
-    cardsOfTypePlayed.forEach(soyCard => soyCard.setScore(0));
     return soyScore * cardsOfTypePlayed.length;
   },
 };
@@ -77,7 +76,6 @@ const tea = {
     const maxCount =
       Object.values(countMap).sort((a, b) => (a > b ? -1 : 1))[0] || 0;
 
-    teaCards.forEach(t => t.setScore(0));
     return maxCount * teaCount;
   },
 };

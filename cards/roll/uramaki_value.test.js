@@ -6,7 +6,6 @@ const makePlayer = playedCards => ({ boardState: { playedCards } });
 
 // unflipped during play, ready to be scored
 const uTripleMock = {
-  setScore: () => {},
   name: 'uramaki',
   shapes: { uramaki: 3 },
 };
@@ -16,7 +15,6 @@ const uScoredTripleMock = {
   value: 10,
   flipped: true,
   name: 'uramaki',
-  setScore: () => {},
   shapes: { uramaki: 3 },
 };
 // flipped and assigned 0 score during `play`
@@ -24,7 +22,6 @@ const uFlippedTripleMock = {
   value: 0,
   flipped: true,
   name: 'uramaki',
-  setScore: () => {},
   shapes: { uramaki: 3 },
 };
 

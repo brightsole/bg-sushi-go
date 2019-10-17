@@ -3,10 +3,10 @@ import appetizers from './index';
 
 const onigiri = appetizers.find(appetizer => appetizer.name === 'onigiri');
 
-const rectangleCard = { shapes: { rectangle: 1 }, setScore: () => {} };
-const triangleCard = { shapes: { triangle: 1 }, setScore: () => {} };
-const circleCard = { shapes: { circle: 1 }, setScore: () => {} };
-const squareCard = { shapes: { square: 1 }, setScore: () => {} };
+const rectangleCard = { shapes: { rectangle: 1 } };
+const triangleCard = { shapes: { triangle: 1 } };
+const circleCard = { shapes: { circle: 1 } };
+const squareCard = { shapes: { square: 1 } };
 
 test('0 onigiri cards are scored correctly', t => {
   t.is(0, onigiri.value({ cardsOfTypePlayed: [] }));

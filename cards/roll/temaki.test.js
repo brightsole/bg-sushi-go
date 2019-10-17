@@ -3,7 +3,7 @@ import rolls from './index';
 
 const temaki = rolls.find(roll => roll.name === 'temaki');
 
-const tMock = { setScore: () => {} };
+const tMock = { name: 'temaki' };
 
 const noPlayedPlayer = [];
 const onePlayedPlayer = [tMock];

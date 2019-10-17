@@ -2,7 +2,7 @@ import test from 'ava';
 import appetizers from './index';
 
 const edamame = appetizers.find(appetizer => appetizer.name === 'edamame');
-const eMock = { setScore: () => {} };
+const eMock = { name: 'edamame' };
 
 const noPlayedPlayer = [];
 const playedPlayer = [eMock];

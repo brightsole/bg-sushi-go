@@ -3,9 +3,9 @@ import rolls from './index';
 
 const maki = rolls.find(roll => roll.name === 'maki');
 
-const mSingleMock = { setScore: () => {}, shapes: { maki: 1 } };
-const mDoubleMock = { setScore: () => {}, shapes: { maki: 2 } };
-const mTripleMock = { setScore: () => {}, shapes: { maki: 3 } };
+const mSingleMock = { shapes: { maki: 1 } };
+const mDoubleMock = { shapes: { maki: 2 } };
+const mTripleMock = { shapes: { maki: 3 } };
 
 const onePlayedPlayer = [mSingleMock];
 const twoPlayedPlayer = [mDoubleMock];
