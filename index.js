@@ -1,7 +1,7 @@
 const { Signale } = require('signale');
 const { stdDev } = require('./utils');
 const { setup } = require('./setup');
-const { worst } = require('./ai');
+const { subjective } = require('./ai');
 
 /**
  * This is one of many valid formats supported thus far. I picked it for the

@@ -17,19 +17,27 @@ There are a series of words attached to each AI that will help anyone interested
 | hope | Hopeful | An algorithm that only considers it's own maximum score possible | nega |
 | nega | Negative | An algorithm that only considers maximum harm to other player's strategies | hope |
 | tact | Tactful | An algorithm that considers harm to other players & help to itself | nega/hope |
+| subj | Subjective | An algorithm concocted from human gut feel | nene |
+| nene | Neural Network | An algorithm generated over time from NN training | subj |
 
 There will be more later, and eventually, a series of neural networks will be trained to compete without all the manual wiring done for these. But for now, these descriptors will help pave a roadmap from the fully random now to a smart, competitive opponent that might just beat a human!
 
 An interesting logical progression is outlined below as an ennumerated list of AI to build:
 
 ### AI TODO:
+##### TRASH TIER
 - [x] [Simple, Blind, Oblivious, and Hopeful](./smpl_blnd_oblv_hope.js)
+- [x] [Subjective, Oblivious, and Hopeful](./subj_oblv_hope.js)
 - [ ] refactor the above, with learnings about what must be done
+##### DECENT
 - [ ] smpl_eagl_oblv_hope.js
 - [ ] smpl_eagl_hist_hope.js
 - [ ] smpl_eagl_hist_nega.js
+##### BETTER THAN HUMAN
 - [ ] smpl_eagl_hist_tact.js
 - [ ] smrt_eagl_hist_tact.js
+##### SHOULD BE NEARLY UNBEATABLE BY HUMANS
+- [ ] nene.js
 
 ### ALSO TODO:
 - [ ] research plotting libs
