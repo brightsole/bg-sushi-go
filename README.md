@@ -37,6 +37,7 @@
   |  | scoreCard({ cardType, players }) | Sums and assigns scores for all cards of x type played by this user |
   |  | scoreBoard(round, gameType, players) | Scores all played cards for x round |
   |  | resetRound() | Clear played cards, and store played desserts at end of round |
+  |  | saveAllPossibleCardClones(all) | saves all the cards possibly found in this game; heavily used by ai to evaluate plays |
   | History |  | A storage container for a fixed-width history text blob |
   |  | *(Player) | duplicates the names of the player methods, and adds their results to the log |
   |  | *(BoardState) | approximates/duplicates some boardState methods, and appends them onto the log |

@@ -15,15 +15,21 @@ module.exports.setup = ({
    * the rest will be filled with random ai players
    */
   const aiPlayers = inputPlayers.map(
-    ({ scoringAlgorithm, id }) => new Player({ history, scoringAlgorithm, id })
+    ({ scoringAlgorithm, id }) =>
+      new Player({ history, scoringAlgorithm, id, playerCount })
   );
   const randomPlayers = Array.from(Array(playerCount - aiPlayers.length)).map(
-    () => new Player({ history })
+    () => new Player({ history, playerCount })
   );
 
   const players = aiPlayers.concat(randomPlayers);
 
-  const { deck: fullDeck, dessertCards, gameType } = prepareDeck({
+  const {
+    gameType,
+    dessertCards,
+    deck: fullDeck,
+    allPossibleCards,
+  } = prepareDeck({
     cardTypeNames,
     playerCount,
     history,
@@ -35,6 +41,7 @@ module.exports.setup = ({
   players.forEach((player, index) => {
     // draw their cards
     player.setHand(deck.draw(turnCount(playerCount)));
+    player.saveAllPossibleCardClones(allPossibleCards);
 
     // alert them of their neighbors
     const left =

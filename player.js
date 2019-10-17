@@ -9,6 +9,7 @@ module.exports.Player = class {
     id = nanoid(),
     desserts = [],
     neighbors = [],
+    playerCount = 2,
     playedCards = [],
     loggingEnabled = false,
     scoringAlgorithm = ({ hand: someHand }) =>
@@ -21,10 +22,11 @@ module.exports.Player = class {
     this.cardToPlay = undefined;
     this.loggingEnabled = loggingEnabled;
     this.scoringAlgorithm = scoringAlgorithm;
-    // TODO: refactor config options to cleaner nested structure?
+    // TODO: refactor config options to cleaner nested structure
 
     this.boardState = {
       playedCards,
+      playerCount,
       neighbors,
       desserts,
       round,
@@ -52,8 +54,19 @@ module.exports.Player = class {
     this.boardState.neighbors = [leftId, rightId];
   };
 
+  saveAllPossibleCardClones = allPossibleCards => {
+    this.allPossibleCards = allPossibleCards;
+  };
+
   preparePlay = boardStates => {
-    const sortedHand = this.scoringAlgorithm({ hand: this.hand, boardStates });
+    const sortedHand = this.scoringAlgorithm({
+      boardStates,
+      hand: this.hand,
+      allPossibleCards: this.allPossibleCards,
+      allOurPlayed: this.boardState.playedCards.concat(
+        this.boardState.desserts
+      ),
+    });
     const [bestCard, ...cardsToPass] = sortedHand;
 
     this.cardToPlay = bestCard;

@@ -1,3 +1,4 @@
+const clone = require('rfdc')({ proto: false, circles: true });
 const { generateCardSet, getSetupByPlayerCount } = require('./cards');
 const { selectUniqueRandoms, shuffle } = require('./utils');
 
@@ -90,7 +91,12 @@ const createGameType = (cardTypeNames, playerCount) => {
  * @param {Number = 1} round - 1-3, the round of the game
  * @param {Object} gameType - supply a type setup with selected cardtypes
  */
-module.exports.prepareDeck = ({ cardTypeNames, playerCount, round = 1 }) => {
+module.exports.prepareDeck = ({
+  cardTypeNames,
+  playerCount,
+  history,
+  round = 1,
+}) => {
   const gameTypeCards = cardTypeNames
     ? createGameType(cardTypeNames, playerCount)
     : randomGameType(playerCount);
@@ -111,6 +117,7 @@ module.exports.prepareDeck = ({ cardTypeNames, playerCount, round = 1 }) => {
   return {
     gameType: gameTypeCards,
     ...addDessertCards({ deck, dessertCards, playerCount, round }),
+    allPossibleCards: allCards.map(clone), // used by player AI to assess value
   };
 };
 
