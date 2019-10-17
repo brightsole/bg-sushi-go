@@ -96,12 +96,18 @@ module.exports.Player = class {
    */
   scoreCards = ({ cardType, players }) => {
     // what follows are very useful constructed properties made from the generics passed in
-    const cardsOfTypePlayed = this.boardState.playedCards.filter(
-      c => c.name === cardType.name
-    );
+    // and dessert scoring only happens on the final round, so it's safe to pass these into the
+    // played cards for that round
+    const cardsOfTypePlayed = this.boardState.playedCards
+      .concat(this.boardState.desserts)
+      .filter(c => c.name === cardType.name);
     const otherCardsOfType = players
       .filter(p => p.id !== this.id)
-      .map(p => p.boardState.playedCards.filter(c => c.name === cardType.name));
+      .map(p =>
+        p.boardState.playedCards
+          .concat(p.boardState.desserts)
+          .filter(c => c.name === cardType.name)
+      );
 
     const sum =
       typeof cardType.value === 'function'
@@ -130,22 +136,9 @@ module.exports.Player = class {
     this.boardState.round = round;
 
     // TODO: fix round to be 1,2,3 instead of 2,3,4
-    // score the desserts on the final round
-    if (round > 3) {
-      const dessertTypes = gameType.dessert;
-
-      dessertTypes.forEach(dessertType => {
-        const cardsSum = this.scoreCards({
-          cardType: dessertType,
-          players,
-        });
-
-        this.boardState.score += cardsSum;
-      });
-    }
-
+    // only score the desserts on the final round
     Object.keys(gameType)
-      .filter(e => e !== 'dessert')
+      .filter(e => (round <= 3 ? e !== 'dessert' : true))
       .forEach(cardTypeName => {
         const baseCardTypes = gameType[cardTypeName];
 

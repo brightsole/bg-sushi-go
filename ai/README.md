@@ -23,7 +23,8 @@ There will be more later, and eventually, a series of neural networks will be tr
 An interesting logical progression is outlined below as an ennumerated list of AI to build:
 
 ### AI TODO:
-- [x] smpl_blnd_oblv_hope.js
+- [x] [Simple, Blind, Oblivious, and Hopeful](./smpl_blnd_oblv_hope.js)
+- [ ] refactor the above, with learnings about what must be done
 - [ ] smpl_eagl_oblv_hope.js
 - [ ] smpl_eagl_hist_hope.js
 - [ ] smpl_eagl_hist_nega.js

@@ -1,10 +1,4 @@
-const getDesserts = (player, cardName) =>
-  player.boardState.playedCards
-    .concat(player.boardState.desserts)
-    .filter(c => c.name === cardName);
-
-const scoreGreenTea = ({ player }) => {
-  const greenTeaCards = getDesserts(player, 'green tea ice cream');
+const scoreGreenTea = ({ cardsOfTypePlayed: greenTeaCards }) => {
   const totalScore =
     greenTeaCards.length && greenTeaCards.length % 4 === 0
       ? 3 * greenTeaCards.length
@@ -20,10 +14,10 @@ const greenTeaIceCream = {
   name: 'green tea ice cream',
 };
 
-const scorePudding = ({ player, players }) => {
-  const puddingCards = getDesserts(player, 'pudding');
-  const otherPlayersPuddings = players.map(p => getDesserts(p, 'pudding'));
-
+const scorePudding = ({
+  cardsOfTypePlayed: puddingCards,
+  otherCardsOfType: otherPlayersPuddings,
+}) => {
   const minOther = otherPlayersPuddings.reduce(
     (min, puddings) => (puddings.length < min ? puddings.length : min),
     Infinity
@@ -59,8 +53,7 @@ const fruitCountToScore = numberOfFruit => {
   if (numberOfFruit === 4) return 6;
   return 10;
 };
-const scoreFruit = ({ player }) => {
-  const fruitCards = getDesserts(player, 'fruit');
+const scoreFruit = ({ cardsOfTypePlayed: fruitCards }) => {
   const [oranges, pineapples, watermelons] = fruitCards.reduce(
     ([sumOrange, sumPineapple, sumWatermelon], card) => {
       const { orange = 0, pineapple = 0, watermelon = 0 } = card.shapes;

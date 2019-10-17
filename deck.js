@@ -1,6 +1,8 @@
 const { generateCardSet, getSetupByPlayerCount } = require('./cards');
 const { selectUniqueRandoms, shuffle } = require('./utils');
 
+const BOARD = { nigiri: 1, roll: 1, dessert: 1, special: 2, appetizer: 3 };
+
 // return the nubmer of cards that need to be added on x round
 // with y number of players
 const getDessertCardCount = (playerCount, round) => {
@@ -23,7 +25,6 @@ const addDessertCards = ({ deck, dessertCards, playerCount, round }) => {
 
 // create the random array of card types used to play a game
 const randomGameType = playerCount => {
-  const BOARD = { nigiri: 1, roll: 1, dessert: 1, special: 2, appetizer: 3 };
   const cardtypeOptions = getSetupByPlayerCount(playerCount);
 
   return Object.keys(BOARD).reduce((gameResult, cardType) => {
