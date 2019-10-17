@@ -15,6 +15,7 @@ const { naiivePossibilities, arrayAdd } = require('./utils');
 const naiivePossibleScores = {
   nigiri: [1, 1, 1, 1, 3, 3, 3, 2, 2, 2, 2, 2],
   temaki: [4, 0, -4],
+  'miso soup': [0, 3, 6, 9, 12, 15, 18, 21, 24],
   onigiri: arrayAdd([0, 1, 4, 9, 16], [0, 1, 4, 9, 16]),
   sashimi: [0, 10, 20],
   edamame: [

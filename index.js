@@ -18,7 +18,7 @@ const { subjective } = require('./ai');
 const simplestFullyScoringGame = [
   'soy sauce',
   'pudding',
-  'edamame',
+  'miso soup',
   'sashimi',
   'onigiri',
   'nigiri',
