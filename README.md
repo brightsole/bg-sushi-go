@@ -122,7 +122,6 @@
       1. tempura
       1. sashimi
       1. dumpling
-      1. misoSoup
 
   2. dessert
       1. fruit
