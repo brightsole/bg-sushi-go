@@ -34,6 +34,7 @@ const randomGameType = playerCount => {
     const possibleOptions = options.length - 1;
 
     const selections = selectUniqueRandoms(possibleOptions, count);
+
     return {
       ...gameResult,
       [cardType]: selections.map(index => ({
@@ -93,13 +94,7 @@ module.exports.prepareDeck = ({ cardTypeNames, playerCount, round = 1 }) => {
   const gameTypeCards = cardTypeNames
     ? createGameType(cardTypeNames, playerCount)
     : randomGameType(playerCount);
-  // console.log(
-  //   'gametype selected: ',
-  //   Object.keys(gameTypeCards)
-  //     .flatMap(e => `\n${e}: ${gameTypeCards[e].map(f => f.name).join(', ')}`)
-  //     .join(''),
-  //   '\n'
-  // );
+  history.selectedGametype({ gameTypeCards });
 
   const allCards = Object.keys(gameTypeCards).reduce((all, type) => {
     const options = gameTypeCards[type];

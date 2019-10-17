@@ -26,6 +26,7 @@ module.exports.setup = ({
   const { deck: fullDeck, dessertCards, gameType } = prepareDeck({
     cardTypeNames,
     playerCount,
+    history,
   });
 
   const deck = new Deck(fullDeck);

@@ -39,7 +39,9 @@
   |  | resetRound() | Clear played cards, and store played desserts at end of round |
   | History |  | A storage container for a fixed-width history text blob |
   |  | *(Player) | duplicates the names of the player methods, and adds their results to the log |
-  |  | getPlayerHistory(playerId) | strips all lines but those realated to the player id |
+  |  | *(BoardState) | approximates/duplicates some boardState methods, and appends them onto the log |
+  |  | getPlayerHistory(playerId) | strips all lines but those related to the player id |
+  |  | getAll() | get all history lines |
 
   These classes have the following state shape:
 
@@ -123,7 +125,6 @@
       1. misoSoup
 
   2. dessert
-      1. setup
       1. fruit
       1. pudding
       1. greenTeaIceCream
