@@ -24,26 +24,20 @@ const addDessertCards = ({ deck, dessertCards, playerCount, round }) => {
   return { deck: shuffle([...deck, ...added]), dessertCards: remainder };
 };
 
-// create the random array of card types used to play a game
-const randomGameType = playerCount => {
+// create the random array of card type names used to play a game
+module.exports.randomGameType = playerCount => {
   const cardtypeOptions = getSetupByPlayerCount(playerCount);
 
-  return Object.keys(BOARD).reduce((gameResult, cardType) => {
+  return Object.keys(BOARD).reduce((cardNames, cardType) => {
     const count = BOARD[cardType];
 
-    const { options, count: optionCount } = cardtypeOptions[cardType];
+    const { options } = cardtypeOptions[cardType];
     const possibleOptions = options.length - 1;
 
     const selections = selectUniqueRandoms(possibleOptions, count);
 
-    return {
-      ...gameResult,
-      [cardType]: selections.map(index => ({
-        count: optionCount,
-        ...options[index],
-      })),
-    };
-  }, {});
+    return cardNames.concat(selections.map(index => options[index].name));
+  }, []);
 };
 
 /**
@@ -92,14 +86,11 @@ const createGameType = (cardTypeNames, playerCount) => {
  * @param {Object} gameType - supply a type setup with selected cardtypes
  */
 module.exports.prepareDeck = ({
-  cardTypeNames,
-  playerCount,
   history,
-  round = 1,
+  playerCount,
+  cardTypeNames = module.exports.randomGameType(this.playerCount),
 }) => {
-  const gameTypeCards = cardTypeNames
-    ? createGameType(cardTypeNames, playerCount)
-    : randomGameType(playerCount);
+  const gameTypeCards = createGameType(cardTypeNames, playerCount);
   history.selectedGametype({ gameTypeCards });
 
   const allCards = Object.keys(gameTypeCards).reduce((all, type) => {
@@ -116,7 +107,7 @@ module.exports.prepareDeck = ({
 
   return {
     gameType: gameTypeCards,
-    ...addDessertCards({ deck, dessertCards, playerCount, round }),
+    ...addDessertCards({ deck, dessertCards, playerCount, round: 1 }),
     allPossibleCards: allCards.map(clone), // used by player AI to assess value
   };
 };
