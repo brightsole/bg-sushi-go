@@ -3,26 +3,15 @@ const { History } = require('./history');
 const { GameState, turnCount } = require('./game_state');
 const { prepareDeck, Deck } = require('./deck');
 
-module.exports.setup = ({
-  inputPlayers = [],
-  playerCount = 2,
-  cardTypeNames,
-  log,
-} = {}) => {
+module.exports.setup = ({ cardTypeNames, players = [], log } = {}) => {
   const history = new History(log);
-  /**
-   * ai algorithms may be passed in as player constructors,
-   * the rest will be filled with random ai players
-   */
-  const aiPlayers = inputPlayers.map(
-    ({ scoringAlgorithm, id }) =>
-      new Player({ history, scoringAlgorithm, id, playerCount })
-  );
-  const randomPlayers = Array.from(Array(playerCount - aiPlayers.length)).map(
-    () => new Player({ history, playerCount })
+
+  // any empty object uses Math.random to pick cards
+  const instantiatedPlayers = players.map(
+    player => new Player({ history, ...player })
   );
 
-  const players = aiPlayers.concat(randomPlayers);
+  const playerCount = instantiatedPlayers.length;
 
   const {
     gameType,
@@ -38,21 +27,31 @@ module.exports.setup = ({
   const deck = new Deck(fullDeck);
 
   // set up all players
-  players.forEach((player, index) => {
+  instantiatedPlayers.forEach((player, index) => {
     // draw their cards
     player.setHand(deck.draw(turnCount(playerCount)));
     player.saveAllPossibleCardClones(allPossibleCards);
 
     // alert them of their neighbors
     const left =
-      index - 1 < 0 ? players[players.length - 1].id : players[index - 1].id;
+      index - 1 < 0
+        ? instantiatedPlayers[players.length - 1].id
+        : instantiatedPlayers[index - 1].id;
     const right =
-      index + 1 >= players.length ? players[0].id : players[index + 1].id;
+      index + 1 >= players.length
+        ? instantiatedPlayers[0].id
+        : instantiatedPlayers[index + 1].id;
     player.setNeighbors(left, right);
   });
 
   return [
-    new GameState({ deck, dessertCards, players, gameType, history }),
+    new GameState({
+      deck,
+      history,
+      gameType,
+      dessertCards,
+      players: instantiatedPlayers,
+    }),
     history,
   ];
 };
