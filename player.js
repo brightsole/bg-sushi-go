@@ -47,7 +47,7 @@ module.exports = class Player {
     this.boardState.desserts = this.boardState.desserts.concat(desserts);
     this.boardState.playedCards = [];
 
-    deck.returnCards(rest);
+    deck.returnToTop(rest);
   };
 
   setNeighbors = (leftId, rightId) => {

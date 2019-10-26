@@ -50,6 +50,8 @@ module.exports = class GameState {
     // return played cards _(save desserts)_ to the deck
     this.players.forEach(player => player.resetRound(this.cards.deck));
 
+    this.cards.deck.shuffle();
+
     this.cards.dessertCards = deck.topUpDesserts({
       round,
       playerCount,
