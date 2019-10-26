@@ -1,5 +1,5 @@
 import test from 'ava';
-import { Card } from '../card';
+import Card from '../card';
 import appetizers from './index';
 
 const misoSoup = appetizers.find(appetizer => appetizer.name === 'miso soup');

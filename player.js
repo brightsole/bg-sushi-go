@@ -1,6 +1,6 @@
 const nanoid = require('nanoid');
 
-module.exports.Player = class {
+module.exports = class Player {
   constructor({
     history,
     hand = [],

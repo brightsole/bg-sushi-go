@@ -3,7 +3,7 @@ const nigiri = require('./nigiri');
 const specials = require('./special');
 const desserts = require('./dessert');
 const appetizers = require('./appetizer');
-const { Card } = require('./card');
+const Card = require('./card');
 
 // filter card types that cannot be played with x playercount
 const byPlayerCount = playerCount => cardType => {

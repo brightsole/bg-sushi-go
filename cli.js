@@ -1,6 +1,6 @@
 const { Signale } = require('signale');
 const { stdDev } = require('./utils');
-const { setup } = require('./setup');
+const setup = require('./setup');
 /* eslint-disable no-unused-vars */
 const { subjective, worst } = require('./ai');
 /* eslint-enable no-unused-vars */

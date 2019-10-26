@@ -21,7 +21,7 @@ const SPACER      =       '      ';
 
 const strip = string => string.slice(0, 8).padEnd(8, ' ');
 
-class History {
+module.exports = class History {
   constructor({ player, game } = {}) {
     this.logGameState = game;
     this.logPlayer = player;
@@ -82,6 +82,4 @@ class History {
   getAll = () => {
     return this.log;
   };
-}
-
-module.exports.History = History;
+};

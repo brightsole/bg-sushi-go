@@ -1,5 +1,5 @@
 import test from 'ava';
-import { Card } from '../card';
+import Card from '../card';
 import nigiriTypes from './index';
 
 // i know, there's only one, but what if we want to make more one day?

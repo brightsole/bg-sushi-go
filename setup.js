@@ -1,9 +1,10 @@
-const { Player } = require('./player');
-const { History } = require('./history');
-const { GameState, turnCount } = require('./game_state');
+const Player = require('./player');
+const History = require('./history');
+const GameState = require('./game_state');
 const { prepareDeck, Deck } = require('./deck');
+const { turnCount } = require('./utils');
 
-module.exports.setup = ({ cardTypeNames, players = [], log } = {}) => {
+module.exports = ({ cardTypeNames, players = [], log } = {}) => {
   const history = new History(log);
 
   // any empty object uses Math.random to pick cards

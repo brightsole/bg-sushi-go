@@ -1,6 +1,6 @@
 const { randomGameType } = require('./deck');
-const { setup } = require('./setup');
 const aiAlgorithms = require('./ai');
+const setup = require('./setup');
 
 module.exports = {
   /**

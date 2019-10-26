@@ -17,7 +17,7 @@ const nanoid = require('nanoid');
  * @property {Number|Function} value - card value or value calculating function
  * @property {Function=any=>any} play - evaluate card when playing it
  */
-module.exports.Card = class {
+module.exports = class Card {
   constructor({
     play = () => {},
     id = nanoid(),

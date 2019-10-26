@@ -50,3 +50,10 @@ const applyMultiple = (startingValue, times, appliedFunction) =>
 
 module.exports.shuffle = arrayToShuffle =>
   applyMultiple(arrayToShuffle, 7, shuffleOnce);
+
+module.exports.turnCount = playerCount => {
+  if (playerCount < 4) return 10;
+  if (playerCount < 6) return 9;
+  if (playerCount < 8) return 8;
+  return 7; // 8 players
+};

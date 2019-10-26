@@ -1,13 +1,7 @@
 const clone = require('rfdc')({ proto: false, circles: true });
+const { turnCount } = require('./utils');
 
-module.exports.turnCount = playerCount => {
-  if (playerCount < 4) return 10;
-  if (playerCount < 6) return 9;
-  if (playerCount < 8) return 8;
-  return 7; // 8 players
-};
-
-module.exports.GameState = class {
+module.exports = class GameState {
   constructor({ deck, players, gameType, turn = 1, round = 1, dessertCards }) {
     this.cards = { deck, dessertCards };
     this.gameType = gameType;
@@ -33,9 +27,7 @@ module.exports.GameState = class {
   };
 
   playAllTurns = () => {
-    Array.from(Array(module.exports.turnCount(this.players.length))).forEach(
-      this.playATurn
-    );
+    Array.from(Array(turnCount(this.players.length))).forEach(this.playATurn);
   };
 
   playARound = () => {
@@ -73,9 +65,7 @@ module.exports.GameState = class {
     } else {
       // otherwise, give all players their hands
       this.players.forEach(player =>
-        player.setHand(
-          this.cards.deck.draw(module.exports.turnCount(this.players.length))
-        )
+        player.setHand(this.cards.deck.draw(turnCount(this.players.length)))
       );
     }
   };
