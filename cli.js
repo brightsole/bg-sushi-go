@@ -42,6 +42,7 @@ const PLAYERS = [
 const PLAYER_COUNT = PLAYERS.length;
 const GAMES_PLAYED = 200;
 
+console.time('runtime');
 const allGamesFinalScores = Array.from(Array(GAMES_PLAYED)).reduce(
   (sums, _, i) => {
     if (!((i + 1) % (GAMES_PLAYED / 100)))
@@ -61,6 +62,7 @@ const allGamesFinalScores = Array.from(Array(GAMES_PLAYED)).reduce(
   },
   []
 );
+console.timeEnd('runtime');
 
 const winnerAvg =
   allGamesFinalScores.reduce((sum, playerScores) => sum + playerScores[0], 0) /

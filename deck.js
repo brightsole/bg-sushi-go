@@ -1,6 +1,7 @@
 const clone = require('rfdc')({ proto: false, circles: true });
+const { default: CardPile } = require('@brightsole/bg-card-pile');
+const { selectUniqueRandoms, shuffle } = require('@brightsole/bg-utils');
 const { generateCardSet, getSetupByPlayerCount } = require('./cards');
-const { selectUniqueRandoms, shuffle } = require('./utils');
 
 const BOARD = { nigiri: 1, roll: 1, dessert: 1, special: 2, appetizer: 3 };
 
@@ -34,7 +35,10 @@ module.exports.randomGameType = playerCount => {
     const { options } = cardtypeOptions[cardType];
     const possibleOptions = options.length - 1;
 
-    const selections = selectUniqueRandoms(possibleOptions, count);
+    const selections = selectUniqueRandoms({
+      maxIndex: possibleOptions,
+      numberToSelect: count,
+    });
 
     return cardNames.concat(selections.map(index => options[index].name));
   }, []);
@@ -112,11 +116,7 @@ module.exports.prepareDeck = ({
   };
 };
 
-module.exports.Deck = class {
-  constructor(cards) {
-    this.cards = cards;
-  }
-
+module.exports.Deck = class extends CardPile {
   // return dessert cards not added to the deck
   topUpDesserts = ({ dessertCards, playerCount, round }) => {
     const { deck, dessertCards: remainder } = addDessertCards({
@@ -128,19 +128,5 @@ module.exports.Deck = class {
 
     this.cards = deck;
     return remainder;
-  };
-
-  draw = count => {
-    const drawnCards = this.cards.slice(0, count);
-    this.cards = this.cards.slice(count);
-
-    return drawnCards;
-  };
-
-  returnCards = cards => {
-    // remove any extraneous properties from the cards
-    cards.forEach(card => card.reset());
-
-    this.cards = shuffle(this.cards.concat(cards));
   };
 };
