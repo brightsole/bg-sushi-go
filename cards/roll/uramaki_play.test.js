@@ -39,7 +39,10 @@ test.only('scores played uramaki, and sets unplayed to 0', t => {
   uramaki.play({
     card: quint,
     boardState: { playedCards: [quad, triple] },
-    expectedPlayedCards: [[quad, quint, triple], [otherQuad, otherQuint]],
+    expectedPlayedCards: [
+      [quad, quint, triple],
+      [otherQuad, otherQuint],
+    ],
   });
 
   t.is(quint.value, 10);

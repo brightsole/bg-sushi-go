@@ -1,6 +1,6 @@
 const clone = require('rfdc')({ proto: false, circles: true });
 const { default: CardPile } = require('@brightsole/bg-card-pile');
-const { selectUniqueRandoms, shuffle } = require('@brightsole/bg-utils');
+const { selectUniqueIndices, shuffle } = require('@brightsole/bg-utils');
 const { generateCardSet, getSetupByPlayerCount } = require('./cards');
 
 const BOARD = { nigiri: 1, roll: 1, dessert: 1, special: 2, appetizer: 3 };
@@ -35,8 +35,8 @@ module.exports.randomGameType = playerCount => {
     const { options } = cardtypeOptions[cardType];
     const possibleOptions = options.length - 1;
 
-    const selections = selectUniqueRandoms({
-      maxIndex: possibleOptions,
+    const selections = selectUniqueIndices({
+      max: possibleOptions,
       numberToSelect: count,
     });
 

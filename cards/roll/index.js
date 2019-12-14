@@ -133,9 +133,9 @@ const maki = {
 
     // unlike uramaki, tied scoring does not occupy lower scoring positions
     // so the [...new Set] is used as a cheap `unique` to allow ties in this way
-    const allCounts = [...new Set(otherMakiCounts.concat(ourMakiCount))].sort(
-      (a, b) => (a > b ? -1 : 1)
-    );
+    const allCounts = [
+      ...new Set(otherMakiCounts.concat(ourMakiCount)),
+    ].sort((a, b) => (a > b ? -1 : 1));
 
     const ourPosition = allCounts.findIndex(count => count === ourMakiCount);
 
