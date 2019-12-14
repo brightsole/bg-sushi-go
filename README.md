@@ -88,11 +88,11 @@
 ### How to use it?
 <details>
   <summary>
-    tl;dr: node index.js
+    tl;dr: node cli.js
   </summary>
   <br />
 
-  `node index.js` will play 200 games and output some stats on them!
+  `node cli.js` will play 200 games and output some stats on them!
 
   right now, it's just a jumping off point, much more work must be done.
 
@@ -143,3 +143,5 @@
 
 </details>
 <br/>
+
+<a href="https://www.buymeacoffee.com/Ao9uzMG" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/default-yellow.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
