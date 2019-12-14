@@ -17,7 +17,6 @@
     "dist/bundle.js"
   ],
   "scripts": {
-    "coverage": "nyc --reporter=html --reporter=text ava",
     "build": "parcel build index.js --out-file dist/bundle.js --no-minify",
     "precommit": "lint-staged",
     "lint": "eslint --fix .",
@@ -32,19 +31,18 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.6.4",
-    "@babel/plugin-proposal-class-properties": "^7.5.5",
-    "@brightsole/eslint-config-lint-node": "^1.0.0",
+    "@babel/core": "^7.7.5",
+    "@babel/plugin-proposal-class-properties": "^7.7.4",
+    "@brightsole/eslint-config-lint-node": "^1.0.1",
     "ava": "^2.4.0",
     "husky": "^0.14.2",
-    "lint-staged": "^9.4.2",
-    "nyc": "^14.1.1",
+    "lint-staged": "^9.5.0",
     "parcel-bundler": "^1.12.4"
   },
   "dependencies": {
-    "@brightsole/bg-card-pile": "0.0.0",
-    "@brightsole/bg-utils": "0.0.0",
-    "nanoid": "^2.1.4",
+    "@brightsole/bg-card-pile": "^0.1.0",
+    "@brightsole/bg-utils": "^1.0.3",
+    "nanoid": "^2.1.7",
     "rfdc": "^1.1.4",
     "signale": "^1.4.0"
   }
