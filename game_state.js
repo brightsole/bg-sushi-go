@@ -13,18 +13,24 @@ module.exports = class GameState {
 
   playATurn = () => {
     const boardStates = this.players.map(player => player.boardState);
+
     this.players.forEach(player => player.preparePlay(boardStates));
 
-    const cardsPlayed = this.players.map(player => player.cardToPlay);
+    this.players.forEach(player => player.bonusAnnouncePlay(boardStates));
+
+    const cardsPlayed = this.players.map(player => player.cardsToPlay);
     const expectedPlayedCards = this.players.map(player =>
-      player.boardState.playedCards.concat(player.cardToPlay)
+      player.boardState.playedCards.concat(player.cardsToPlay)
     );
+
     this.players.forEach(player =>
-      player.playCard(cardsPlayed, expectedPlayedCards)
+      player.playCards(cardsPlayed, expectedPlayedCards)
     );
 
     this.players.forEach(player => player.passCards(this.players));
   };
+
+  node;
 
   playAllTurns = () => {
     Array.from(Array(turnCount(this.players.length))).forEach(this.playATurn);

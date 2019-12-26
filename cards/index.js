@@ -30,7 +30,18 @@ module.exports.getSetupByPlayerCount = playerCount => ({
 
 // output all the cards in whatever cardset you pick
 module.exports.generateCardSet = ({ type, gameCardType }) => {
-  const { name, count, value, color, types, play } = gameCardType;
+  const {
+    name,
+    play,
+    count,
+    value,
+    color,
+    types,
+    announce,
+    playType = 'onReveal',
+  } = gameCardType;
+
+  if (announce) console.log('gameCardType', gameCardType);
 
   if (types) {
     return types.reduce(
@@ -44,6 +55,8 @@ module.exports.generateCardSet = ({ type, gameCardType }) => {
                 play,
                 value,
                 color,
+                announce,
+                playType,
                 ...rest,
               })
           )
@@ -55,6 +68,8 @@ module.exports.generateCardSet = ({ type, gameCardType }) => {
   return Array.from(Array(count)).map(
     () =>
       new Card({
+        playType,
+        announce,
         color,
         value,
         play,

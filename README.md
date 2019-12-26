@@ -115,6 +115,11 @@
   1. Players unable to activate specials that have been previously played
   1. Evaluating `play`
       1. specials
+        1. menu                - onPlay (select best 2x)
+        1. special order       - onPlay (select best card to duplicate)
+        1. spoon               - announce (ask after card)
+        1. takeout box         - onPlay (select cards worth less than 2)
+        1. chopsticks          - announce (select best 2x)
 
   ### TESTS TO DO:
   1. appetizers
@@ -129,7 +134,7 @@
       1. pudding
       1. greenTeaIceCream
 
-  4. special
+  3. special
       1. menu
       1. spoon
       1. wasabi

@@ -1,6 +1,22 @@
 const chopsticks = {
   name: 'chopsticks',
   color: 'light-cyan',
+  playType: 'announce',
+  announce: ({ player, boardStates, cardId }) => {
+    const sortedHand = player.scoringAlgorithm({
+      boardStates,
+      hand: player.hand,
+      allPossibleCards: player.allPossibleCards,
+      allOurPlayed: player.boardState.playedCards.concat(
+        player.boardState.desserts
+      ),
+    });
+
+    const playedChopstick = player.removePlayedCard(cardId);
+
+    player.setCardsToPlay(sortedHand.slice(0, 2));
+    player.setCardsToPass(sortedHand.slice(2).concat(playedChopstick));
+  },
   valueDescription: 'announce: play 2 in hand, put chopsticks in hand',
 };
 
@@ -41,6 +57,7 @@ const spoon = {
   name: 'spoon',
   minPlayers: 3,
   color: 'dark-grey',
+  playType: 'announce',
   valueDescription: 'announce: trade for card with leftmost owner',
 };
 
