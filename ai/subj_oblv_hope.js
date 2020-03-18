@@ -32,7 +32,7 @@ const gutValue = ({ remainingCount, playerCount, ourPlayed, card }) => ({
   'soy sauce': 1.5, // very much oversimplified
   'special order': 0, // PLAY NOT IMPLEMENTED PROPERLY YET
   'takeout box': 0, // PLAY NOT IMPLEMENTED PROPERLY YET
-  chopsticks: 0, // PLAY NOT IMPLEMENTED PROPERLY YET
+  chopsticks: 10, // PLAY NOT IMPLEMENTED PROPERLY YET
   spoon: 0, // PLAY NOT IMPLEMENTED PROPERLY YET
   menu: 0, // PLAY NOT IMPLEMENTED PROPERLY YET
 });
@@ -75,16 +75,23 @@ const getScore = ({ playerCount, allPlayedCards, allPossibleCards, card }) => {
  * @param {Card[]} params.boardStates - every player's previously played cards for this turn
  * @param {Card[]} params.allPossibleCards - cloned cards from deck creation. Lists everything
  */
-module.exports.subjective = ({ hand, boardStates, allPossibleCards }) => {
+module.exports.subjective = ({
+  hand,
+  announceCards,
+  boardStates,
+  allPossibleCards,
+}) => {
   const playerCount = boardStates.length;
   const allPlayedCards = boardStates.flatMap(bState => bState.playedCards);
 
-  return hand.sort((a, b) =>
-    getScore({ card: a, allPlayedCards, playerCount, allPossibleCards }) >
-    getScore({ card: b, allPlayedCards, playerCount, allPossibleCards })
-      ? -1
-      : 1
-  );
+  return hand
+    .concat(announceCards)
+    .sort((a, b) =>
+      getScore({ card: a, allPlayedCards, playerCount, allPossibleCards }) >
+      getScore({ card: b, allPlayedCards, playerCount, allPossibleCards })
+        ? -1
+        : 1
+    );
 };
 
 /**

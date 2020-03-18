@@ -22,6 +22,8 @@ module.exports = class Card {
     play = () => {},
     id = nanoid(),
     cardName,
+    playType,
+    announce,
     shapes,
     color,
     value,
@@ -36,6 +38,8 @@ module.exports = class Card {
     this.type = type;
     this.color = color;
     this.shapes = shapes;
+    this.announce = announce;
+    this.playType = playType;
     this.cardName = cardName;
 
     this.flipped = false;

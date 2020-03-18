@@ -12,14 +12,14 @@ module.exports = class Player {
     playerCount = 2,
     playedCards = [],
     loggingEnabled = false,
-    scoringAlgorithm = ({ hand: someHand }) =>
-      someHand.sort(() => (Math.random() > 0.5 ? 1 : -1)),
+    scoringAlgorithm = ({ hand: someHand, announceCards }) =>
+      someHand.concat(announceCards).sort(() => (Math.random() > 0.5 ? 1 : -1)),
   } = {}) {
     this.id = id;
     this.hand = hand;
     this.cardsToPass = [];
+    this.cardsToPlay = [];
     this.history = history;
-    this.cardToPlay = undefined;
     this.loggingEnabled = loggingEnabled;
     this.scoringAlgorithm = scoringAlgorithm;
     // TODO: refactor config options to cleaner nested structure
@@ -36,6 +36,22 @@ module.exports = class Player {
 
   setHand = cards => {
     this.hand = cards;
+  };
+
+  setCardsToPlay = cards => {
+    this.cardsToPlay = cards;
+  };
+
+  setCardsToPass = cards => {
+    this.cardsToPass = cards;
+  };
+
+  removePlayedCard = cardId => {
+    const card = this.boardState.playedCards.filter(c => c.id === cardId);
+    this.boardState.playedCards = this.boardState.playedCards.filter(
+      c => c.id !== cardId
+    );
+    return card;
   };
 
   resetRound = deck => {
@@ -63,31 +79,50 @@ module.exports = class Player {
       boardStates,
       hand: this.hand,
       allPossibleCards: this.allPossibleCards,
+      announceCards: this.boardState.playedCards.filter(
+        c => c.playType === 'announce'
+      ),
       allOurPlayed: this.boardState.playedCards.concat(
         this.boardState.desserts
       ),
     });
     const [bestCard, ...cardsToPass] = sortedHand;
 
-    this.cardToPlay = bestCard;
+    this.cardsToPlay = [...this.cardsToPlay, bestCard];
     this.cardsToPass = cardsToPass;
   };
 
-  playCard = (allPlayedCards, expectedPlayedCards) => {
+  bonusAnnouncePlay = boardStates => {
+    const cardToPlay = this.cardsToPlay[0];
+    console.log('cardddd', cardToPlay);
+    if (
+      cardToPlay &&
+      cardToPlay.playType === 'announce' &&
+      cardToPlay.announce
+    ) {
+      cardToPlay.announce({ player: this, boardStates, cardId: cardToPlay.id });
+    }
+  };
+
+  playCards = (allPlayedCards, expectedPlayedCards) => {
     const { playedCards } = this.boardState;
 
-    this.history.playCard({ playerId: this.id, card: this.cardToPlay });
-    this.cardToPlay.play({
-      boardState: this.boardState,
-      card: this.cardToPlay,
-      expectedPlayedCards,
-      allPlayedCards,
-    });
+    this.history.playCards({ playerId: this.id, cards: this.cardsToPlay });
+    this.cardsToPlay.forEach(
+      card =>
+        card.play &&
+        card.play({
+          boardState: this.boardState,
+          expectedPlayedCards,
+          allPlayedCards,
+          card,
+        })
+    );
 
-    this.boardState.playedCards = playedCards.concat(this.cardToPlay);
+    this.boardState.playedCards = playedCards.concat(this.cardsToPlay);
 
     this.setHand([]);
-    this.cardToPlay = undefined;
+    this.cardsToPlay = [];
   };
 
   passCards = players => {

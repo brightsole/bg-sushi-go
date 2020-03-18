@@ -43,12 +43,14 @@ module.exports = class History {
     this.log += `${GAME_STATE}  ${SPACER}  ${SELECTED}\n${cardsString}`;
   };
 
-  playCard = ({ playerId, card }) => {
+  playCards = ({ playerId, cards }) => {
     if (!this.logPlayer) return;
 
-    this.log += `${PLAYER}-${playerId}  ${PLAYED}  ${strip(card.name)}-${
-      card.id
-    }\n`;
+    cards.forEach(card => {
+      this.log += `${PLAYER}-${playerId}  ${PLAYED}  ${strip(card.name)}-${
+        card.id
+      }\n`;
+    });
   };
 
   scoreCards = ({ playerId, cardType, sum, cards }) => {
